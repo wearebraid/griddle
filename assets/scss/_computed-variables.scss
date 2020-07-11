@@ -1,0 +1,22 @@
+// the calculations below are all based on the values in variables.
+// They should not be modified.
+// -----------------------------------------------------------------------------
+$g-max-body-width: ($g-column-count * $g-max-column-width) + (($g-column-count - 1) * $g-max-gutter-width);
+
+$g-column-decimal: $g-max-column-width / $g-max-body-width;
+$g-gutter-decimal: $g-max-gutter-width / $g-max-body-width;
+
+$g-column: $g-column-decimal * 100%;
+$g-gutter: $g-gutter-decimal * 100%;
+
+$g-column-template: repeat($g-column-count, 1fr);
+$g-column-gap: $g-gutter;
+
+$g-computed-breakpoints: (
+  'max-body': (
+    'width': $g-max-body-width, // 76em or 1216px at default griddle settings
+    'inset': auto
+  )
+);
+
+$g-breakpoints: map-merge($g-user-breakpoints, $g-computed-breakpoints);

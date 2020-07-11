@@ -1,0 +1,18 @@
+// function to get deeply nested map values
+// -----------------------------------------------------------------------------
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+// function to return a breakpoint value from the breakpoint map
+// -----------------------------------------------------------------------------
+@function bp($bp) {
+  @if map-has-key($g-breakpoints, #{$bp}) {
+    @return map-deep-get($g-breakpoints, #{$bp}, 'width');
+  }
+  @warn "The breakpoint key '#{$bp}' is not in the map ’$g-breakpoints’";
+  @return null;
+};

@@ -1,0 +1,100 @@
+// Creates styles for a root element contained space
+// -----------------------------------------------------------------------------
+@mixin container () {
+  $latest-inset: 0em;
+  @each $bp, $bp-data in $g-breakpoints {
+    // on each pass through, if we have not hit an "auto" inset then store
+    // the inset value for use when we do have an auto inset
+    @if map-deep-get($g-breakpoints, #{$bp}, 'inset') != auto {
+      $latest-inset: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+    }
+
+    @if $bp == "base" {
+      margin-left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+      margin-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+      max-width: $g-max-body-width;
+    } @else {
+      @media (min-width: bp(#{$bp})) {
+        width: calc(100% - #{$latest-inset * 2});
+        margin-left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+        margin-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+      }
+    }
+  }
+}
+
+// Creates styles for the griddle visual overlay
+// -----------------------------------------------------------------------------
+@mixin overlay () {
+  $latest-inset: 0em;
+  @each $bp, $bp-data in $g-breakpoints {
+    // on each pass through, if we have not hit an "auto" inset then store
+    // the inset value for use when we do have an auto inset
+    @if map-deep-get($g-breakpoints, #{$bp}, 'inset') != auto {
+      $latest-inset: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+    }
+
+    @if $bp == "base" {
+      display: grid;
+      grid-template-columns: $g-column-template;
+      grid-column-gap: $g-column-gap;
+      pointer-events: none;
+      z-index: 200; // reasonably safe high z-index
+      position: fixed;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+      left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+    } @else {
+      @media (min-width: bp(#{$bp})) {
+        @if map-deep-get($g-breakpoints, #{$bp}, 'inset') == auto {
+          left: 50%;
+          right: auto;
+          transform: translateX(-50%);
+          width: calc(100% - #{$latest-inset * 2});
+          max-width: $g-max-body-width;
+        } @else {
+          left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+          right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+        }
+      }
+    }
+  }
+}
+
+// Function to create a percentage width spanning n columns.
+// -----------------------------------------------------------------------------
+@function span($columns, $extra_gutters: 0, $context: 0) {
+  $gutters: 0;
+
+  @if $columns == 0 {
+    $gutters: $extra_gutters;
+  } @else {
+    $gutters: $extra_gutters + ($columns - 1);
+  }
+
+  @if $context != 0{
+    @return ((($columns * $g-column) + ($gutters * $g-gutter)) / $context) * 100%;
+  } @else {
+    @return (($columns * $g-column) + ($gutters * $g-gutter));
+  }
+}
+
+// Creates a decimal between 0-1 that defines a span of columns
+// -----------------------------------------------------------------------------
+@function span-decimal($columns, $extra_gutters: 0, $context: 0) {
+  $gutters: 0;
+
+  @if $columns == 0 {
+    $gutters: $extra_gutters;
+  } @else {
+    $gutters: $extra_gutters + ($columns - 1);
+  }
+
+  @if $context != 0{
+    @return ((($columns * $g-column-decimal) + ($gutters * $g-gutter-decimal)) / $context);
+  } @else {
+    @return (($columns * $g-column-decimal) + ($gutters * $g-gutter-decimal));
+  }
+}
