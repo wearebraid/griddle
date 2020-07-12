@@ -2,26 +2,24 @@
 // -----------------------------------------------------------------------------
 @mixin container () {
   $latest-inset: 0em;
-  @each $bp, $bp-data in $g-breakpoints {
+
+  @each $bp, $bp-width, $bp-inset in $g-breakpoints {
     // on each pass through, if we have not hit an "auto" inset then store
     // the inset value for use when we do have an auto inset
-    @if map-deep-get($g-breakpoints, #{$bp}, 'inset') != auto {
-      $latest-inset: map-deep-get($g-breakpoints, #{$bp}, 'inset');
-    }
 
-    @if $bp == "base" {
-      margin-left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
-      margin-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+    @if $bp == 'base' {
+      margin-left: $bp-inset;
+      margin-right: $bp-inset;
       max-width: $g-max-body-width;
     } @else if $bp == "max-body" {
-      width: calc(100% - #{$latest-inset * 2});
-      margin-left: auto !important;
-      margin-right: auto !important;
+      @media (min-width: bp(#{$bp})) {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
     } @else {
       @media (min-width: bp(#{$bp})) {
-        width: calc(100% - #{$latest-inset * 2});
-        margin-left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
-        margin-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+        margin-left: $bp-inset;
+        margin-right: $bp-inset;
       }
     }
   }
@@ -31,11 +29,11 @@
 // -----------------------------------------------------------------------------
 @mixin overlay () {
   $latest-inset: 0em;
-  @each $bp, $bp-data in $g-breakpoints {
+  @each $bp, $bp-width, $bp-inset in $g-breakpoints {
     // on each pass through, if we have not hit an "auto" inset then store
     // the inset value for use when we do have an auto inset
-    @if map-deep-get($g-breakpoints, #{$bp}, 'inset') != auto {
-      $latest-inset: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+    @if $bp-inset != auto {
+      $latest-inset: $bp-inset;
     }
 
     @if $bp == "base" {
@@ -48,19 +46,19 @@
       height: 100%;
       top: 0;
       bottom: 0;
-      right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
-      left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+      right: $bp-inset;
+      left: $bp-inset;
     } @else {
       @media (min-width: bp(#{$bp})) {
-        @if map-deep-get($g-breakpoints, #{$bp}, 'inset') == auto {
+        @if $bp-inset == auto {
           left: 50%;
           right: auto;
           transform: translateX(-50%);
           width: calc(100% - #{$latest-inset * 2});
           max-width: $g-max-body-width;
         } @else {
-          left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
-          right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+          left: $bp-inset;
+          right: $bp-inset;
         }
       }
     }
@@ -112,10 +110,8 @@
   // calculate our possibly modified by a provided context
   $value: 0;
   @if $context != 0 {
-    @debug "with context: #{$columns} times #{$base-column} plus #{$gutters} times #{$base-gutter} divided by #{$context} times #{$modifier} = #{((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier}";
     $value: ((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier;
   } @else {
-    @debug "no context: #{$columns} times #{$base-column} plus #{$gutters} times #{$base-gutter} times #{$modifier} = #{(($columns * $base-column) + ($gutters * $base-gutter)) * $modifier}";
     $value: (($columns * $base-column) + ($gutters * $base-gutter)) * $modifier;
   }
 
@@ -127,7 +123,7 @@
       @return percentage($value);
     }
   } @else if $returnValue == 'decimal' {
-    @return $value
+    @return $value;
   }
 }
 
@@ -158,4 +154,61 @@
   }
 
   @return [$extra_gutters, $context];
+}
+
+
+// adds bleeds up to a max $g-bleed-max-width if defined.
+// assumes that your element is already positioned on the edge of the grid
+// within a container context
+// -----------------------------------------------------------------------------
+@mixin bleed(
+  $direction: 'left',
+  $start-at: 'base',
+  $unset-child: false
+) {
+  @each $bp, $bp-width, $bp-inset in $g-breakpoints {
+    $target-bp: nested-map-get($g-breakpoints, 1, $bp);
+    $target-bp-width: false;
+
+    @if ($target-bp) {
+      $target-bp-width: nth($target-bp, 2);
+
+      @if $bp == $start-at {
+        @media (min-width: bp(#{$bp})) {
+          body & {
+            box-sizing: content-box;
+          }
+        }
+      }
+
+      @if $bp-width >= $target-bp-width {
+        @if $bp-inset != 'auto' {
+          @media (min-width: bp(#{$bp})) {
+            body & {
+              padding-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
+
+              @if $direction == 'left'{
+                margin-left: - map-deep-get($g-breakpoints, #{$bp}, 'inset');
+              }
+              @if $direction == 'right'{
+                margin-right: - map-deep-get($g-breakpoints, #{$bp}, 'inset');
+              }
+
+              @if $unset-child {
+                & > *:first-child {
+                  width: calc(100% + #{map-deep-get($g-breakpoints, #{$bp}, 'inset')});
+                }
+              }
+            }
+          }
+        } @else {
+          @media (min-width: bp(#{$bp})) {
+            body & {
+              padding-right: calc((100vw - #{$g-max-body-width}) / 2);
+            }
+          }
+        }
+      }
+    }
+  }
 }

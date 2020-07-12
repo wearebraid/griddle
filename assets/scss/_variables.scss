@@ -6,33 +6,12 @@ $g-max-gutter-width: 2em !default;
 $g-column-count: 12 !default;
 $g-column-color: red !default; // fill color will be set at 0.1 opacity
 
-$g-user-breakpoints: (
-  'base': (
-    'width': 0em,
-    'inset': 1em
-  ),
-  'xs': (
-    'width': 23.5em, // 376px at 16px base font size
-    'inset': 1em,
-  ),
-  's': (
-    'width': 36em, // 576px at 16px base font size
-    'inset': 1.5em
-  ),
-  'm': (
-    'width': 48em, // 768px at 16px base font size
-    'inset': 2em
-  ),
-  'l': (
-    'width': 64em, // 1024px at 16px base font size
-    'inset': 3em
-  ),
-  'xl': (
-    'width': 86.5em, // 1384 at 16px base font size
-    'inset': auto
-  ),
-  'xxl': (
-    'width': 100em, // 1600px at 16px base font size
-    'inset': auto
-  )
-) !default;
+$g-user-breakpoints:
+  'base' 0em 1em,
+  'xs' 23.5em 1em,
+  's' 36em 1.5em,
+  'm' 48em 2em,
+  'l' 64em 3em,
+  'xl' 86.5em auto,
+  'xxl' 100em auto
+!default;

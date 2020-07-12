@@ -12,11 +12,37 @@ $g-gutter: $g-gutter-decimal * 100%;
 $g-column-template: repeat($g-column-count, 1fr);
 $g-column-gap: $g-gutter;
 
-$g-computed-breakpoints: (
-  'max-body': (
-    'width': $g-max-body-width, // 76em or 1216px at default griddle settings
-    'inset': auto
-  )
-);
+// place the 'max-body' and 'base' breakpoints at the correct place inside our
+// $g-breakpoints map, and use the previous breakpoint's inset value
+// to calculate the appropriate target screen size.
+// generates the final breakpoint map between default and user settings
+// -----------------------------------------------------------------------------
+@function generateBreakpoints() {
+  $max-body-inserted: false;
+  $calcSize: 0;
+  $breakpoints: ();
 
-$g-breakpoints: map-merge($g-user-breakpoints, $g-computed-breakpoints);
+  @each $bp, $bp-width, $bp-inset in $g-user-breakpoints {
+    // now find the correct place to insert the max body breakpoint
+    @if $bp-inset != 'auto' {
+      $calcSize: $g-max-body-width + ($bp-inset * 2);
+
+      @if ($calcSize < $bp-width and $max-body-inserted == false) {
+        $breakpoints: append($breakpoints, 'max-body' $calcSize auto);
+        $max-body-inserted: true;
+      }
+    } @else if $max-body-inserted == false {
+      // if we didn't hit a match before we reached 'auto' inset values then use the
+      // latest available values and insert the 'max-body' breakpoint
+      $breakpoints: append($breakpoints, 'max-body' $calcSize auto);
+      $max-body-inserted: true;
+    }
+
+    // append the user breakpoint
+    $breakpoints: append($breakpoints, $bp $bp-width $bp-inset);
+  }
+
+  @return $breakpoints;
+}
+
+$g-breakpoints: generateBreakpoints();
