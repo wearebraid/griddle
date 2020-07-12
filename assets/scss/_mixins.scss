@@ -69,36 +69,75 @@
 
 // Function to create a percentage width spanning n columns.
 // -----------------------------------------------------------------------------
-@function span($columns, $extra_gutters: 0, $context: 0) {
-  $gutters: 0;
+@function span($columns, $args...) {
+  @return calcSpan($columns, $args, 'percent');
+}
 
+// Function to create a decimal width spanning n columns.
+// -----------------------------------------------------------------------------
+@function span-decimal($columns, $args...) {
+  @return calcSpan($columns, $args, 'decimal');
+}
+
+// Shared logic to determine a span value for both percent and decimal spans
+// -----------------------------------------------------------------------------
+@function calcSpan($columns, $args, $returnValue) {
+  $processedArgs: calculateSpanArgs($args, $returnValue);
+  $gutters: 0;
+  $base-column: 0;
+  $base-gutter: 0;
+  $modifier: 0;
+  $extra_gutters: nth($processedArgs, 1);
+  $context: nth($processedArgs, 2);
+
+  // set variables to calculate the proper return value for either
+  // span() or span-decimal()
+  @if $returnValue == 'percent' {
+    $base-column: $g-column;
+    $base-gutter: $g-gutter;
+    $modifier: 100%; // cast final value to percent
+  } @else if $returnValue == 'decimal' {
+    $base-column: $g-column-decimal;
+    $base-gutter: $g-gutter-decimal;
+    $modifier: 1; // leave final value as decimal and do not modify
+  }
+
+  // determine how many total gutters we need to account for
   @if $columns == 0 {
     $gutters: $extra_gutters;
   } @else {
     $gutters: $extra_gutters + ($columns - 1);
   }
 
-  @if $context != 0{
-    @return ((($columns * $g-column) + ($gutters * $g-gutter)) / $context) * 100%;
+  // return our final value, possibly modified by a provided context
+  @if $context != 0 {
+    @return ((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier;
   } @else {
-    @return (($columns * $g-column) + ($gutters * $g-gutter));
+    @return (($columns * $base-column) + ($gutters * $base-gutter));
   }
 }
 
-// Creates a decimal between 0-1 that defines a span of columns
+// helper function to determine if span() args are gutters or context
 // -----------------------------------------------------------------------------
-@function span-decimal($columns, $extra_gutters: 0, $context: 0) {
-  $gutters: 0;
+@function calculateSpanArgs($args, $returnValue) {
+  $extra_gutters: 0;
+  $context: 0;
 
-  @if $columns == 0 {
-    $gutters: $extra_gutters;
-  } @else {
-    $gutters: $extra_gutters + ($columns - 1);
+  @if length($args) {
+    @for $i from 1 to length($args) + 1 {
+      // if the first argument is unit-less assume it's the extra gutters value
+      // if it is a % value then it's the context
+      @if ($i == 1 and type-of(nth($args, $i)) == 'number' and getUnit(nth($args, $i)) != '%') {
+        $extra_gutters: nth($args, $i);
+      } @else if ($i == 1 and type-of(nth($args, $i)) == 'number' and getUnit(nth($args, $i)) == '%') {
+        $context: nth($args, $i);
+      }
+      // if there is a 2nd argument that is a percent value, it is the context
+      @if ($i == 2 and type-of(nth($args, $i)) == 'number') {
+        $context: nth($args, $i);
+      }
+    }
   }
 
-  @if $context != 0{
-    @return ((($columns * $g-column-decimal) + ($gutters * $g-gutter-decimal)) / $context);
-  } @else {
-    @return (($columns * $g-column-decimal) + ($gutters * $g-gutter-decimal));
-  }
+  @return [$extra_gutters, $context];
 }

@@ -16,3 +16,9 @@
   @warn "The breakpoint key '#{$bp}' is not in the map ’$g-breakpoints’";
   @return null;
 };
+
+// function to get the unit value of a number
+// -----------------------------------------------------------------------------
+@function getUnit($value) {
+  @return str-slice($value * 0 + "", 2, -1);
+}

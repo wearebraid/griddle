@@ -83,7 +83,18 @@ export default {
         transform: translateX(-50%);
         color: $g-column-color;
         opacity: 0.5;
+        font-size: 12px;
         content: counter(columnCount);
+
+        @media (min-width: 600px) {
+          font-size: 14px;
+        }
+        @media (min-width: 1200px) {
+          font-size: 16px;
+        }
+        @media (min-width: bp(max-body)) {
+          font-size: 16px;
+        }
       }
 
       &:before {
