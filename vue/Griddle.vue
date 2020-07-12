@@ -34,6 +34,7 @@ export default {
     }
   },
   mounted () {
+    // add listener for grid toggle
     window.addEventListener('keyup', (e) => {
       if (e.ctrlKey && e.shiftKey && e.which === 76) {
         this.visible = !this.visible
@@ -48,16 +49,30 @@ export default {
         }
       }
     })
+
+    // set CSS variable helper for getting document width
+    // without scrollbars
+    window.addEventListener('resize', () => {
+      this.setScrollbarWidth()
+    })
+    this.setScrollbarWidth()
   },
   methods: {
     countColumns () {
       if (Object.keys(this.$refs).length && this.$refs.griddle) {
         this.numberOfColumns = getComputedStyle(this.$refs.griddle).gridTemplateColumns.split(' ').length
       }
+    },
+    setScrollbarWidth () {
+      const root = document.documentElement
+      root.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + 'px')
     }
   }
 }
 </script>
+
+<style>
+</style>
 
 <style lang="scss" scoped>
 @import '../assets/scss/griddle';

@@ -166,13 +166,14 @@
   $start-at: 'base',
   $unset-child: false
 ) {
-  @each $bp, $bp-width, $bp-inset in $g-breakpoints {
-    $target-bp: nested-map-get($g-breakpoints, 1, $bp);
-    $target-bp-width: false;
 
-    @if ($target-bp) {
-      $target-bp-width: nth($target-bp, 2);
+  $target-bp: nested-map-get($g-breakpoints, 1, $start-at);
+  $target-bp-width: false;
 
+  @if ($target-bp) {
+    $target-bp-width: nth($target-bp, 2);
+
+    @each $bp, $bp-width, $bp-inset in $g-breakpoints {
       @if $bp == $start-at {
         @media (min-width: bp(#{$bp})) {
           body & {
@@ -185,18 +186,19 @@
         @if $bp-inset != 'auto' {
           @media (min-width: bp(#{$bp})) {
             body & {
-              padding-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
-
-              @if $direction == 'left'{
-                margin-left: - map-deep-get($g-breakpoints, #{$bp}, 'inset');
-              }
-              @if $direction == 'right'{
-                margin-right: - map-deep-get($g-breakpoints, #{$bp}, 'inset');
+              @if ($direction == 'both') {
+                padding-right: $bp-inset;
+                padding-left: $bp-inset;
+                margin-right: - $bp-inset;
+                margin-left: - $bp-inset;
+              } @else {
+                padding-#{$direction}: $bp-inset;
+                margin-#{$direction}: - $bp-inset;
               }
 
               @if $unset-child {
                 & > *:first-child {
-                  width: calc(100% + #{map-deep-get($g-breakpoints, #{$bp}, 'inset')});
+                  width: calc(100% + #{$bp-inset});
                 }
               }
             }
@@ -204,7 +206,15 @@
         } @else {
           @media (min-width: bp(#{$bp})) {
             body & {
-              padding-right: calc((100vw - #{$g-max-body-width}) / 2);
+              @if ($direction == 'both') {
+                padding-left: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
+                padding-right: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
+                margin-left: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+                margin-left: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+              } @else {
+                padding-#{$direction}: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
+                margin-#{$direction}: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+              }
             }
           }
         }
