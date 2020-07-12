@@ -82,7 +82,7 @@
 // Shared logic to determine a span value for both percent and decimal spans
 // -----------------------------------------------------------------------------
 @function calcSpan($columns, $args, $returnValue) {
-  $processedArgs: calculateSpanArgs($args, $returnValue);
+  $processedArgs: calculateSpanArgs($args);
   $gutters: 0;
   $base-column: 0;
   $base-gutter: 0;
@@ -95,7 +95,7 @@
   @if $returnValue == 'percent' {
     $base-column: $g-column;
     $base-gutter: $g-gutter;
-    $modifier: 100%; // cast final value to percent
+    $modifier: 1;
   } @else if $returnValue == 'decimal' {
     $base-column: $g-column-decimal;
     $base-gutter: $g-gutter-decimal;
@@ -109,19 +109,31 @@
     $gutters: $extra_gutters + ($columns - 1);
   }
 
-  // return our final value, possibly modified by a provided context
+  // calculate our possibly modified by a provided context
+  $value: 0;
   @if $context != 0 {
-    @debug "#{((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier}";
-    @return ((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier;
+    @debug "with context: #{$columns} times #{$base-column} plus #{$gutters} times #{$base-gutter} divided by #{$context} times #{$modifier} = #{((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier}";
+    $value: ((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier;
   } @else {
-    @debug "#{(($columns * $base-column) + ($gutters * $base-gutter)) * $modifier}";
-    @return (($columns * $base-column) + ($gutters * $base-gutter)) * $modifier;
+    @debug "no context: #{$columns} times #{$base-column} plus #{$gutters} times #{$base-gutter} times #{$modifier} = #{(($columns * $base-column) + ($gutters * $base-gutter)) * $modifier}";
+    $value: (($columns * $base-column) + ($gutters * $base-gutter)) * $modifier;
+  }
+
+  // return the correct value type
+  @if $returnValue == 'percent' {
+    @if getUnit($value) == '%' {
+      @return $value;
+    } @else {
+      @return percentage($value);
+    }
+  } @else if $returnValue == 'decimal' {
+    @return $value
   }
 }
 
 // helper function to determine if span() args are gutters or context
 // -----------------------------------------------------------------------------
-@function calculateSpanArgs($args, $returnValue) {
+@function calculateSpanArgs($args) {
   $extra_gutters: 0;
   $context: 0;
 
