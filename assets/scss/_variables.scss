@@ -4,6 +4,7 @@
 $g-max-column-width: 4.5em !default;
 $g-max-gutter-width: 2em !default;
 $g-column-count: 12 !default;
+$g-column-color: red !default; // fill color will be set at 0.1 opacity
 
 $g-user-breakpoints: (
   'base': (

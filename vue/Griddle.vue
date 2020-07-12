@@ -66,7 +66,7 @@ export default {
   @include overlay();
 
   .griddle-column {
-    background-color: rgba(red, 0.1);
+    background-color: rgba($g-column-color, 0.1);
   }
 
   &[data-column-numbers="true"] {
@@ -81,7 +81,7 @@ export default {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        color: red;
+        color: $g-column-color;
         opacity: 0.5;
         content: counter(columnCount);
       }
@@ -97,7 +97,7 @@ export default {
 
   &[data-column-borders="true"] {
     .griddle-column {
-      box-shadow: inset 0 0 1px 0 red;
+      box-shadow: inset 0 0 1px 0 $g-column-color;
     }
   }
 }
