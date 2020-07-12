@@ -13,6 +13,10 @@
       margin-left: map-deep-get($g-breakpoints, #{$bp}, 'inset');
       margin-right: map-deep-get($g-breakpoints, #{$bp}, 'inset');
       max-width: $g-max-body-width;
+    } @else if $bp == "max-body" {
+      width: calc(100% - #{$latest-inset * 2});
+      margin-left: auto !important;
+      margin-right: auto !important;
     } @else {
       @media (min-width: bp(#{$bp})) {
         width: calc(100% - #{$latest-inset * 2});

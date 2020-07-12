@@ -3,6 +3,8 @@
     v-if="visible"
     ref="griddle"
     class="griddle-container"
+    :data-column-numbers="columnNumbers"
+    :data-column-borders="columnBorders"
   >
     <div
       v-for="i in numberOfColumns"
@@ -14,10 +16,19 @@
 
 <script>
 export default {
+  props: {
+    columnNumbers: {
+      type: Boolean,
+      default: true
+    },
+    columnBorders: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
       visible: false,
-      showColumnNumbers: false,
       numberOfColumns: 0,
       tickInterval: null
     }
@@ -56,6 +67,38 @@ export default {
 
   .griddle-column {
     background-color: rgba(red, 0.1);
+  }
+
+  &[data-column-numbers="true"] {
+    counter-reset: columnCount;
+
+    .griddle-column {
+      position: relative;
+      counter-increment: columnCount;
+
+      &:before,
+      &:after {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: red;
+        opacity: 0.5;
+        content: counter(columnCount);
+      }
+
+      &:before {
+        top: 1em;
+      }
+      &:after {
+        bottom: 1em;
+      }
+    }
+  }
+
+  &[data-column-borders="true"] {
+    .griddle-column {
+      box-shadow: inset 0 0 1px 0 red;
+    }
   }
 }
 </style>
