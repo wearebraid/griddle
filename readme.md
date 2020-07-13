@@ -21,11 +21,12 @@ use `control + shift + L` to show the Griddle overlay.
 
 ## Installation
 
-**Initial 1.0 package has not been published to NPM yet (will be soon).**
-If you want to test this pre-release of Griddle you will need to download and manually include the files in your directory structure.
+```bash
+npm install @braid/griddle
+```
 
 ### Vue
-First, install the Vue plugin to access the `<Griddle>` component.
+First, import and install the Vue component.
 
 ```javascript
 /* in your project setup file */
