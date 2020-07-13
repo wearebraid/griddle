@@ -114,7 +114,7 @@ $g-user-breakpoints:
   // each breakpoint consists of 3 items:
   // 1.) name,
   // 2.) breakpoint width
-  // 3.) inset from edge of screen
+  // 3.) Minimum inset from edge of screen
   'base' 0em 1em, // the base breakpoint is required
   'xs' 23.5em 1em, // 376px
   's' 36em 1.5em, // 576px
