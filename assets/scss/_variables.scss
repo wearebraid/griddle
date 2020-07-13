@@ -4,14 +4,16 @@
 $g-max-column-width: 4.5em !default;
 $g-max-gutter-width: 2em !default;
 $g-column-count: 12 !default;
-$g-column-color: red !default; // fill color will be set at 0.1 opacity
+$g-column-color: red !default; // fill color will be used at 10% opacity
 
 $g-user-breakpoints:
-  'base' 0em 1em,
-  'xs' 23.5em 1em,
-  's' 36em 1.5em,
-  'm' 48em 2em,
-  'l' 64em 3em,
-  'xl' 86.5em auto,
-  'xxl' 100em auto
+  'base' 0em 1em, // base breakpoint is required
+  'xs' 23.5em 1em, // 376px
+  's' 36em 1.5em, // 576px
+  'm' 48em 2em, // 768px
+  'l' 64em 3em, // 1024px
+  // with these default settings the computed 'max-body' breakpoint
+  // will be inserted here at 70em target width
+  'xl' 86.5em 4em, // 1384px
+  'xxl' 100em 6em // 1600px
 !default;

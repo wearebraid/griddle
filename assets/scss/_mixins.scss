@@ -48,6 +48,14 @@
       bottom: 0;
       right: $bp-inset;
       left: $bp-inset;
+    } @else if $bp == "max-body" {
+      @media (min-width: bp(#{$bp})) {
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        width: calc(100% - #{$latest-inset * 2});
+        max-width: $g-max-body-width;
+      }
     } @else {
       @media (min-width: bp(#{$bp})) {
         @if $bp-inset == auto {
