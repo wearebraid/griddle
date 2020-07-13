@@ -133,10 +133,10 @@ Press `control + shift + L` (think "Layout") to toggle the visual grid overlay. 
 ### In Code
 
 **Quick Links**
-- [container()](#container)
-- [span()](#span)
-- [bleed()](#bleed)
-- [bp()](#bp)
+- [`container()`](#container)
+- [`span()`](#span)
+- [`bleed()`](#bleed)
+- [`bp()`](#bp)
 - [the `max-body` breakpoint](#the-max-body-breakpoint)
 
 ### `container()`
