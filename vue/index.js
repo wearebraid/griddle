@@ -7,10 +7,14 @@ export default {
     columnBorders: {
       type: Boolean,
       default: true
+    },
+    visible: {
+      type: Boolean,
+      default: false
     }
   },
   render (h) {
-    if (this.visible) {
+    if (this.computedVisible) {
       return h('div',
         {
           ref: 'griddle',
@@ -34,25 +38,31 @@ export default {
   },
   data () {
     return {
-      visible: false,
+      internalVisible: false,
       numberOfColumns: 0,
       tickInterval: null
+    }
+  },
+  computed: {
+    computedVisible () {
+      return this.visible || this.internalVisible
+    }
+  },
+  watch: {
+    visible: {
+      immediate: true,
+      handler () {
+        this.internalVisible = this.visible
+        this.renderGriddle()
+      }
     }
   },
   mounted () {
     // add listener for grid toggle
     window.addEventListener('keyup', (e) => {
       if (e.ctrlKey && e.shiftKey && e.which === 76) {
-        this.visible = !this.visible
-
-        if (this.visible) {
-          this.$nextTick(() => { this.countColumns() })
-          this.tickInterval = setInterval(() => {
-            this.countColumns()
-          }, 1000)
-        } else {
-          clearInterval(this.tickInterval)
-        }
+        this.internalVisible = !this.internalVisible
+        this.renderGriddle()
       }
     })
 
@@ -72,6 +82,17 @@ export default {
     setScrollbarWidth () {
       const root = document.documentElement
       root.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + 'px')
+    },
+    renderGriddle () {
+      this.$emit('toggle', this.internalVisible)
+      if (this.computedVisible) {
+        this.$nextTick(() => { this.countColumns() })
+        this.tickInterval = setInterval(() => {
+          this.countColumns()
+        }, 1000)
+      } else {
+        clearInterval(this.tickInterval)
+      }
     }
   }
 }
