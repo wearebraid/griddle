@@ -85,7 +85,7 @@ module.exports = {
   }
 }
 ```
-Then include the visual overlay styles by icluding them in your `.scss` files that become part of your global stylesheet. `griddle-overlay.scss` should _not_ be imported into every component because it actually outputs style classes which should only be done once in your project.
+Then include the visual overlay styles by including them in your `.scss` files that become part of your global stylesheet. `griddle-overlay.scss` should _not_ be imported into every component because it actually outputs style classes which should only be done once in your project.
 
 ```scss
 /* in your own global SCSS file */
@@ -199,7 +199,7 @@ Lastly, you may be trying to style an element that's nested inside of a parent e
 ```
 ![span() with context](./assets/img/context.jpg)
 
-Do you need to push or pull an element by a number of columns? Since the `span()` function always returns a percent you can use it in other properties all well. To push and pull I recommend `left-margin`.
+Do you need to push or pull an element by a number of columns? Since the `span()` function always returns a percent you can use it in other properties all well. To push and pull I recommend `margin-left`.
 
 ```scss
 .my-element {
