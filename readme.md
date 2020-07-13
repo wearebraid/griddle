@@ -4,16 +4,30 @@ Griddle is a visual grid overlay and Sass mixin system to help with your front-e
 
 The goal of the system is to assist front-end engineers in executing a 1:1 implementation of referenced designs. This is done through a visual grid overlay that is toggleable in the browser and an accompanying set of `.scss` mixins and functions that place items precisely on the grid.
 
+![Griddle Example](https://assets.wearebraid.com/griddle/braid-grid.mov.gif "Griddle on https://www.wearebraid.com")
+
+## Table of Contents
+- [Why does Griddle exist?](#why-does-griddle-exist)
+- [Who is Griddle for?](#who-is-griddle-for)
+- [Who is Griddle not for?](#who-is-griddle-not-for)
+- [Real projects made with Griddle](#real-projects-made-with-griddle)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Questions / Issues / Pull Requests](#questions--issues--pull-requests)
+
 ## Why does Griddle exist?
 [Details Matter: Add a Visual Grid System to your Front-end Development Process](https://www.wearebraid.com/articles/add-visual-grid)
 
 ## Who is Griddle for?
-If you prefer for all of your layout work to occur inside of your project styles then Griddle is for you. Griddle is for front-end engineers who prefer to do their layout work via "rules inside of stylesheets" rather than "classes inside of HTML templates". If you're cozy with Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustment to your mental model.
+Griddle is for front-end engineers who prefer to do their layout work via "rules inside of stylesheets" rather than "classes inside of HTML templates". If you prefer for all of your layout work to occur inside of your project styles then Griddle is for you. With a visual overlay that that perfectly matches your design file grid and a set of tools that help you place elements in exactly the right place, Griddle is like being able to see for the first time.
+
+## Who is Griddle not for?
+If you're married to Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustments to your mental model. Griddle assumes that you're comfortable writing your own styles and creating the sturcture neccessary for your project beyond adhering layout items exatcly to your project grid.
 
 ## Real projects made with Griddle
-use `control + shift + L` to show the Griddle overlay.
+use `control + shift + L` to show the Griddle overlay an these projects. Note that each represents a different grid configuration that was derived from that project's design file.
 
-- [Braid](https://www.wearebraid.com) - Digital Agency, authors of Griddle.
+- [Braid](https://www.wearebraid.com) - Digital Agency, creator of Griddle.
 - [Outdoor Dreams](https://www.outdoordreamsva.com) - Bespoke outdoor rooms.
 - [Cosaic](https://cosaic.io) - Industry-leading financial software.
 - [Gardenary](https://www.gardenary.com) - Garden Coaching and education.
@@ -26,17 +40,17 @@ npm install @braid/griddle
 ```
 
 ### Vue
-First, import and install the Vue component.
+First, import and register the Griddle component
 
 ```javascript
-/* in your project setup file */
+/* Exapmel in project setup file */
 import Vue from 'vue'
 import { VueGriddle } from '@braid/griddle'
 
 Vue.component('Griddle', VueGriddle)
 ```
 
-and place the available `<Griddle />` component in your project root layout
+and place the `<Griddle />` component in your project. We recommend placing the component at the root layout because it consists entirely of a fixed position grid overlay. The Griddle `.scss` mixins will work without the overlay, but it's sort of the key point. 😉
 
 ```html
 <!-- in your project root layout -->
@@ -50,7 +64,7 @@ and place the available `<Griddle />` component in your project root layout
 </template>
 ```
 
-Second, you need to add the Griddle `.scss` mixins to your project. The exact method to do this may differ depending on your specific build process. Here is an example using a `vue.config.js` from a Vue CLI 3 project.
+Second, you need to add the Griddle `.scss` mixins to your project. The exact method to do this may differ depending on your specific build process. Here is an example using a `vue.config.js` from a Vue CLI 3 project. First add the variables, functions, and mixins to every `.scss` style block in your project by registering them as part of the Sass loader:
 
 ```js
 /* in vue.config.js */
@@ -70,7 +84,10 @@ module.exports = {
     }
   }
 }
+```
+Then include the visual overlay styles by icluding them in your `.scss` files that become part of your global stylesheet. `griddle-overlay.scss` should _not_ be imported into every component because it actually outputs style classes which should only be done once in your project.
 
+```scss
 /* in your own global SCSS file */
 // default griddle overlay styles
 @import "@braid/griddle/scss/griddle-overlay.scss";
@@ -81,7 +98,11 @@ Griddle is 99% the `.scss` mixins represented in this repo. Pull Requests are we
 
 ## Customization
 
-Griddle is intended to match your design file’s grid settings as closely as possible. Use the available column and gutter sizes along with the column count from your design program to set up your project. Here are the default settings that can be overridden. Feel free to copy them to your own overrides file as a starting point.
+You can change the settings for Griddle by including your own `griddle-overrides.scss` file (call it whatever you want) and loading it into your `.scss` _before_ the main `griddle.scss` is included. Your overrides file will take precedence over the default values.
+
+Griddle is intended to match your design file’s grid settings as closely as possible. Use the available column and gutter sizes along with the column count from your design program to set up your project. 
+
+Here are the default settings that can be overridden in your `griddle-overrides.scss`. Feel free to copy them to your own overrides file as a starting point.
 
 ```scss
 $g-max-column-width: 4.5em !default; // 72px
@@ -110,6 +131,13 @@ $g-user-breakpoints:
 Press `control + shift + L` (think "Layout") to toggle the visual grid overlay. At 100% zoom your grid in the browser should perfectly match your grid in you target design file.
 
 ### In Code
+
+**Quick Links**
+- [container()](#container)
+- [span()](#span)
+- [bleed()](#bleed)
+- [bp()](#bp)
+- [the `max-body` breakpoint](#the-max-body-breakpoint)
 
 ### `container()`
 a `container()` mixin sets up the responsive styles needed to create a grid container element. This element should consist of 100% of the available viewport width and must surround any `span()` mixins in order for them to be aligned to the grid.
