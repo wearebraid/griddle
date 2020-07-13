@@ -12,8 +12,8 @@ use `control + shift + L` to show the Griddle overlay.
 
 - [Braid](https://www.wearebraid.com) - Digital Agency, authors of Griddle.
 - [Outdoor Dreams](https://www.outdoordreamsva.com) - Bespoke outdoor rooms.
-- [Gardenary](https://www.gardenary.com) - Garden Coaching and education.
 - [Cosaic](https://cosaic.io) - Industry-leading financial software.
+- [Gardenary](https://www.gardenary.com) - Garden Coaching and education.
 - [Sidecar](https://sidecar.work) - On-demand project and office adminstration.
 
 ## Installation
@@ -66,7 +66,7 @@ module.exports = {
 ### Other Frameworks?
 Griddle is 99% the `.scss` mixins represented in this repo. Pull Requests are welcome for other frameworks if you would like to include Griddle in your specific workflow.
 
-### Customization
+## Customization
 
 Griddle is intended to match your design file’s grid settings as closely as possible. Use the available column and gutter sizes along with the column count from your design program to set up your project. Here are the default settings that can be overridden. Feel free to copy them to your own overrides file as a starting point.
 
