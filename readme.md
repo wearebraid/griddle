@@ -74,8 +74,8 @@ Griddle is 99% the `.scss` mixins represented in this repo. Pull Requests are we
 Griddle is intended to match your design file’s grid settings as closely as possible. Use the available column and gutter sizes along with the column count from your design program to set up your project. Here are the default settings that can be overridden. Feel free to copy them to your own overrides file as a starting point.
 
 ```scss
-$g-max-column-width: 4.5em !default;
-$g-max-gutter-width: 2em !default;
+$g-max-column-width: 4.5em !default; // 72px
+$g-max-gutter-width: 2em !default; // 32px
 $g-column-count: 12 !default;
 $g-column-color: red !default; // fill color will be used at 10% opacity
 

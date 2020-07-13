@@ -1,8 +1,8 @@
 // Griddle variables
 // feel free to override with your own values in an earlier loaded scss file
 // -----------------------------------------------------------------------------
-$g-max-column-width: 4.5em !default;
-$g-max-gutter-width: 2em !default;
+$g-max-column-width: 4.5em !default; // 72px
+$g-max-gutter-width: 2em !default; // 32px
 $g-column-count: 12 !default;
 $g-column-color: red !default; // fill color will be used at 10% opacity
 
