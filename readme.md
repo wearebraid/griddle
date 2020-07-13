@@ -120,8 +120,8 @@ $g-user-breakpoints:
   's' 36em 1.5em, // 576px
   'm' 48em 2em, // 768px
   'l' 64em 3em, // 1024px
-  'xl' 86.5em auto, // 1384px
-  'xxl' 100em auto // 1600px
+  'xl' 86.5em 4em, // 1384px
+  'xxl' 100em 6em // 1600px
 !default;
 ```
 
