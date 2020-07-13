@@ -150,7 +150,7 @@ Lastly, you may be trying to style an element that's nested inside of a parent e
   width: span(4); // 31.57895% assuming a 12-column grid
 
   img {
-    width: span(2, 0, span(4)) // 45.83333% assuming a 12-column grid
+    width: span(2, 0, span(4)); // 45.83333% assuming a 12-column grid
     // PRO TIP!
     // the second argument in span() is flexible. If you don’t need any
     // extra gutters you can pass a span() context as the 2nd argument
@@ -169,7 +169,7 @@ Do you need to push or pull an element by a number of columns? Since the `span()
   margin-left: span(4, 1); // 34.21053% assuming a 12-column grid
 
   img {
-    width: span(2, span(4)) // 45.83333% assuming a 12-column grid
+    width: span(2, span(4)); // 45.83333% assuming a 12-column grid
     // note that "span(2, span(4))" is the same as "span(2, 0, span(4))"
   }
 }
