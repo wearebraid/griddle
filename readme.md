@@ -4,6 +4,9 @@ Griddle is a visual grid overlay and Sass mixin system to help with your front-e
 
 The goal of the system is to assist front-end engineers in executing a 1:1 implementation of referenced designs. This is done through a visual grid overlay that is toggleable in the browser and an accompanying set of `.scss` mixins that place items precisely on the grid.
 
+## Why does Griddle exist?
+[Details Matter: Add a Visual Grid System to your Front-end Development Process](https://www.wearebraid.com/articles/add-visual-grid)
+
 ## Who is Griddle for?
 If you prefer for all of your layout work to occur inside of your project styles then Griddle is for you. Griddle is for front-end engineers who prefer to do their layout work via "rules inside of stylesheets" rather than "classes inside of HTML templates". If you're cozy with Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustment to your mental model.
 
