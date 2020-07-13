@@ -226,7 +226,7 @@ When using Griddle you are not constrained to the breakpoints defined in your Gr
 
 #### the `max-body` breakpoint
 
-There's one extra trick Griddle has up its sleeves when it comes to breakpoints. You can override all of the default Griddle breakpoints by setting up a `$g-user-breakpoints` variable in your own `.scss` before the `griddle.scss` file is imported. Whether you use the defaults or define your own, Griddle inserts one magic breakpoint of its own called `max-body`.
+There's one extra trick Griddle has up its sleeves when it comes to breakpoints. Whether you use the defaults or define your own, Griddle always inserts one magic breakpoint of its own called `max-body`.
 
 The `max-body` breakpoint is the minimum width at which your `container()` element and and any outside spacing can show at their maximum possible widths. It is at this exact breakpoint value that the Griddle grid system forces a switch to `auto` for your `container()` mixin’s left and right margin.
 
