@@ -91,7 +91,7 @@ $g-user-breakpoints:
 !default;
 ```
 
-## Useage
+## Usage
 
 ### In Browser
 Press `control + shift + L` (think "Layout") to toggle the visual grid overlay. At 100% zoom your grid in the browser should perfectly match your grid in you target design file.
@@ -99,7 +99,7 @@ Press `control + shift + L` (think "Layout") to toggle the visual grid overlay. 
 ### In Code
 
 ### `container()`
-a `container()` mixin sets up the responsive styles needed to create a grid container element. This element should be consist 100% of the available viewport width and must surround any `span()` mixins in order for them to be aligned to the grid.
+a `container()` mixin sets up the responsive styles needed to create a grid container element. This element should consist of 100% of the available viewport width and must surround any `span()` mixins in order for them to be aligned to the grid.
 
 ```html
 <!-- example Vue component -->
@@ -190,7 +190,7 @@ By including the `bleed()` we can easily break `span()` items out of `containers
 
 
 ### `bp()`
-a `bp()` returns the width value of a given breakpoint name. It is most useful for creating media queries tied to the named breakpoints in your griddle configuration.
+a `bp()` returns the width value of a given breakpoint name. It is most useful for creating media queries tied to the named breakpoints in your Griddle configuration.
 
 - `name`: The name of the breakpoint from which you would like to retrieve a width.
 
@@ -222,15 +222,15 @@ When using Griddle you are not constrained to the breakpoints defined in your Gr
 
 #### the `max-body` breakpoint
 
-There's one extra trick Griddle has up its sleeves when it comes to breakpoints. You can override all of the default griddle breakpoints by setting up a `$g-user-breakpoints` variable in your own `.scss` before the `griddle.scss` file is imported. Whether you use the defaults or define your own, Griddle inserts one magic breakpoint of its own called `max-body`.
+There's one extra trick Griddle has up its sleeves when it comes to breakpoints. You can override all of the default Griddle breakpoints by setting up a `$g-user-breakpoints` variable in your own `.scss` before the `griddle.scss` file is imported. Whether you use the defaults or define your own, Griddle inserts one magic breakpoint of its own called `max-body`.
 
-The `max-body` breakpoint is the breakpoint width at which your `container()` element and and any outside spacing can show at maximum width. It's at this exact breakpoint value that the Griddle grid system switches to `auto` for your `container()` left and right margin.
+The `max-body` breakpoint is the minimum width at which your `container()` element and and any outside spacing can show at their maximum possible widths. It is at this exact breakpoint value that the Griddle grid system forces a switch to `auto` for your `container()` mixin’s left and right margin.
 
 The formula for the `max-body` breakpoint is roughly this:
 
 `$max-body = $max-container-width + ($previous-breakpoint-inset * 2)`
 
-it's strongly recommended that all of your user-defined breakpoints have `px` or `em` insets defined. Let Griddle take care of calculating the switch to `auto` inset for you.
+it's strongly recommended that all of your user-defined breakpoints have `px` or `em` insets defined. **Let Griddle take care of calculating the switch to `auto` inset for you.**
 
 ## Questions / Issues / Pull Requests
 We've been using Griddle internally for a while now and we're happy to see it in use by others. All questions, issues, and pull requests are welcome on this repo.
