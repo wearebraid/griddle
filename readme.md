@@ -30,9 +30,9 @@ First, install the Vue plugin to access the `<Griddle>` component.
 ```javascript
 /* in your project setup file */
 import Vue from 'vue'
-import Griddle from '@braid/griddle/vue'
+import { VueGriddle } from '@braid/griddle'
 
-Vue.use(Griddle)
+Vue.component('Griddle', VueGriddle)
 ```
 
 and place the available `<Griddle />` component in your project root layout
@@ -59,14 +59,20 @@ module.exports = {
       sass: {
         // An overrides file should be included in your build process
         // before griddle.scss if you wish to override default settings
+        // these files should only include variables and mixins, not styles
+        // as they will be added to every component that uses SCSS.
         data: `
           @import "@/assets/griddle-overrides.scss";
-          @import "@braid/griddle/assets/scss/griddle.scss";
+          @import "@braid/griddle/scss/griddle.scss";
         `
       }
     }
   }
 }
+
+/* in your own global SCSS file */
+// default griddle overlay styles
+@import "@braid/griddle/scss/griddle-overlay.scss";
 ```
 
 ### Other Frameworks?

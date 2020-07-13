@@ -1,9 +1,18 @@
 {
   "name": "@braid/griddle",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "A visual grid overlay and Sass mixin system to help with your front-end development",
   "scripts": {
-    "test": " "
+    "build": "npm run build:scss && npm run build:main && npm run build:vue",
+    "build:scss": "cp -r ./scss ./dist/scss",
+    "build:main": "uglifyjs --compress --mangle -o ./dist/index.js -- ./index.js",
+    "build:vue": "uglifyjs --compress --mangle -o ./dist/vue/index.js -- ./vue/index.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "unpkg": "./dist/index.js",
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -34,6 +43,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.14.1",
-    "sass-loader": "^7.0.0"
+    "sass-loader": "^7.0.0",
+    "uglify-es": "^3.3.9"
   }
 }
