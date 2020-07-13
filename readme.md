@@ -2,7 +2,7 @@
 
 Griddle is a visual grid overlay and Sass mixin system to help with your front-end development.
 
-The goal of the system is to assist front-end engineers in executing a 1:1 implementation of referenced designs. This is done through a visual grid overlay that is toggleable in the browser and an accompanying set of `.scss` mixins that place items precisely on the grid.
+The goal of the system is to assist front-end engineers in executing a 1:1 implementation of referenced designs. This is done through a visual grid overlay that is toggleable in the browser and an accompanying set of `.scss` mixins and functions that place items precisely on the grid.
 
 ## Why does Griddle exist?
 [Details Matter: Add a Visual Grid System to your Front-end Development Process](https://www.wearebraid.com/articles/add-visual-grid)
@@ -120,13 +120,13 @@ a `container()` mixin sets up the responsive styles needed to create a grid cont
 ```
 
 ### `span()`
-a `span()` mixin calculates a percentage width based on its given arguments. `span()` always returns a `%` value. `span()` takes 3 arguments which will each be explained in further detail:
+a `span()` function calculates a percentage width based on its given arguments. The `span()` function always returns a `%` value. The `span()` function takes 3 arguments which will each be explained in further detail:
 
 - `columns`: (required) The number of columns you wish to span, including interior gutters.
 - `extra_gutters`: (optional) The number of extra gutters you wish to span.
 - `context`: (optional) The context for width calculations. Defaults to 100% which is the full grid width.
 
-The simplest usage of span is to specify only a number of `columns` to be spanned.
+The simplest usage of the `span()` function is to specify only a number of `columns` to be spanned.
 ```scss
 .my-element {
   width: span(4); // 31.57895% assuming a 12-column grid
@@ -135,7 +135,7 @@ The simplest usage of span is to specify only a number of `columns` to be spanne
 ![span(4)](./assets/img/span-4.jpg)
 
 
-If you need to span across any `extra_gutters` you can pass those as a 2nd argument.
+If you need to span across any `extra_gutters` you can pass those as a 2nd argument to the function.
 ```scss
 .my-element {
   width: span(4, 1); // 34.21053%; assuming a 12-column grid
@@ -144,7 +144,7 @@ If you need to span across any `extra_gutters` you can pass those as a 2nd argum
 ![span(4, 1)](./assets/img/span-4-1.jpg)
 
 
-Lastly, you may be trying to style an element that's nested inside of a parent element that already has `span()` styles applied to it. In this case, if you provide the parent `context` as a 3rd argument your `span()` mixin will return _root_ `column` and `gutter` values
+Lastly, you may be trying to style an element that's nested inside of a parent element that already has `span()` styles applied to it. In this case, if you provide the parent `context` as a 3rd argument the `span()` function will return _root_ `column` and `gutter` values
 ```scss
 .my-element {
   width: span(4); // 31.57895% assuming a 12-column grid
@@ -161,7 +161,7 @@ Lastly, you may be trying to style an element that's nested inside of a parent e
 ```
 ![span() with context](./assets/img/context.jpg)
 
-Do you need to push or pull an element by a number of columns? Since `span()` always returns a percent you can use it in other properties all well. To push and pull I recommend `left-margin`.
+Do you need to push or pull an element by a number of columns? Since the `span()` function always returns a percent you can use it in other properties all well. To push and pull I recommend `left-margin`.
 
 ```scss
 .my-element {
