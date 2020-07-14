@@ -10,11 +10,11 @@
     @if $bp == 'base' {
       margin-left: $bp-inset;
       margin-right: $bp-inset;
-      max-width: $g-max-body-width;
     } @else if $bp == "max-body" {
       @media (min-width: bp(#{$bp})) {
         margin-left: auto !important;
         margin-right: auto !important;
+        max-width: $g-max-body-width;
       }
     } @else {
       @media (min-width: bp(#{$bp})) {
