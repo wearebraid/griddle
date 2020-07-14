@@ -51,7 +51,7 @@ npm install @braid/griddle
 First, import and register the Griddle component
 
 ```javascript
-/* Exapmel in project setup file */
+/* Example in project setup file */
 import Vue from 'vue'
 import { VueGriddle } from '@braid/griddle'
 
