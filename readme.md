@@ -6,25 +6,33 @@ The goal of the system is to assist front-end engineers in executing a 1:1 imple
 
 ![Griddle Example](https://assets.wearebraid.com/griddle/braid-grid.mov.gif "Griddle on https://www.wearebraid.com")
 
-## Table of Contents
+## 📋 Table of Contents
 - [Why does Griddle exist?](#why-does-griddle-exist)
 - [Who is Griddle for?](#who-is-griddle-for)
 - [Who is Griddle not for?](#who-is-griddle-not-for)
 - [Real projects made with Griddle](#real-projects-made-with-griddle)
 - [Installation](#installation)
+  - [Vue](#vue)
+  - [Other frameworks?](#other-frameworks)
+- [Customization](#customization)
 - [Usage](#usage)
+  - [`container()`](#container)
+  - [`span()`](#span)
+  - [`bleed()`](#bleed)
+  - [`bp()`](#bp)
+  - [the `max-body` breakpoint](#the-max-body-breakpoint)
 - [Questions / Issues / Pull Requests](#questions--issues--pull-requests)
 
-## Why does Griddle exist?
+## <a name="why-does-griddle-exist"></a> 🤔 Why does Griddle exist?
 [Details Matter: Add a Visual Grid System to your Front-end Development Process](https://www.wearebraid.com/articles/add-visual-grid)
 
-## Who is Griddle for?
+## <a name="who-is-griddle-for"></a> 🙂 Who is Griddle for?
 Griddle is for front-end engineers who prefer to do their layout work via "rules inside of stylesheets" rather than "classes inside of HTML templates". If you prefer for all of your layout work to occur inside of your project styles then Griddle is for you. With a visual overlay that that perfectly matches your design file grid and a set of tools that help you place elements in exactly the right place, Griddle is like being able to see for the first time.
 
-## Who is Griddle not for?
+## <a name="who-is-griddle-not-for"></a> 🙃 Who is Griddle not for?
 If you're married to Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustments to your mental model. Griddle assumes that you're comfortable writing your own styles and creating the sturcture neccessary for your project beyond adhering layout items exatcly to your project grid.
 
-## Real projects made with Griddle
+## <a name="real-projects-made-with-griddle"></a> 🔥 Real projects made with Griddle
 use `control + shift + L` to show the Griddle overlay an these projects. Note that each represents a different grid configuration that was derived from that project's design file.
 
 - [Braid](https://www.wearebraid.com) - Digital Agency, creator of Griddle.
