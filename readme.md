@@ -1,6 +1,6 @@
 # 🍳 Griddle - Cook up something delicious.
 
-Griddle a system of Sass functions and mixins with an accompanying visual grid overlay to help with your front-end development.
+Griddle is a system of Sass functions and mixins with an accompanying visual grid overlay to help you be exact with your front-end development.
 
 The goal of the system is to assist front-end engineers in executing a 1:1 implementation of referenced designs. This is done through a visual grid overlay that is toggleable in the browser and an accompanying set of `.scss` mixins and functions that place items precisely on the grid.
 
