@@ -30,10 +30,10 @@ The goal of the system is to assist front-end engineers in executing a 1:1 imple
 Griddle is for front-end engineers who prefer to do their layout work via "rules inside of stylesheets" rather than "classes inside of HTML templates". If you prefer for all of your layout work to occur inside of your project styles then Griddle is for you. With a visual overlay that that perfectly matches your design file grid and a set of tools that help you place elements in exactly the right place, Griddle is like being able to see for the first time.
 
 ## <a name="who-is-griddle-not-for"></a> 🙃 Who is Griddle not for?
-If you're married to Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustments to your mental model. Griddle assumes that you're comfortable writing your own styles and creating the sturcture neccessary for your project beyond adhering layout items exatcly to your project grid.
+If you're married to Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustments to your mental model. Griddle assumes that you're comfortable writing your own styles and creating the sturcture neccessary for your project beyond adhering layout items precisely to your project grid.
 
 ## <a name="real-projects-made-with-griddle"></a> 🔥 Real projects made with Griddle
-use `control + shift + L` to show the Griddle overlay an these projects. Note that each represents a different grid configuration that was derived from that project's design file.
+use `control + shift + L` to show the Griddle overlay in the browser on these projects. Note that each project represents a different grid configuration that was derived from that project's design file.
 
 - [Braid](https://www.wearebraid.com) - Digital Agency, creator of Griddle.
 - [Outdoor Dreams](https://www.outdoordreamsva.com) - Bespoke outdoor rooms.
