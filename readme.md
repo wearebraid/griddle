@@ -36,6 +36,7 @@ If you're married to Bootstrap's class system or a utility framework such as Tai
 use `control + shift + L` to show the Griddle overlay in the browser on these projects. Note that each project represents a different grid configuration that was derived from that project's design file.
 
 - [Braid](https://www.wearebraid.com) - Digital Agency, creator of Griddle.
+- [UVA Mcintire School of Commerce](https://www.commerce.virginia.edu) - The McIntire School of Commerce at the University of Virginia.
 - [Outdoor Dreams](https://www.outdoordreamsva.com) - Bespoke outdoor rooms.
 - [Cosaic](https://cosaic.io) - Industry-leading financial software.
 - [Gardenary](https://www.gardenary.com) - Garden Coaching and education.
