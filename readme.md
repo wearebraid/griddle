@@ -85,7 +85,15 @@ module.exports = {
         // before griddle.scss if you wish to override default settings
         // these files should only include variables and mixins, not styles
         // as they will be added to every component that uses SCSS.
+        
+        // sass-loader less than v9.0
         data: `
+          @import "@/assets/griddle-overrides.scss";
+          @import "@braid/griddle/scss/griddle.scss";
+        `,
+        
+        // sass-loader v9.0+
+        additionalData: `
           @import "@/assets/griddle-overrides.scss";
           @import "@braid/griddle/scss/griddle.scss";
         `
