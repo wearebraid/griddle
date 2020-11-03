@@ -172,13 +172,22 @@
 @mixin bleed(
   $direction: 'left',
   $start-at: 'base',
+  $end-at: false,
   $unset-child: false
 ) {
 
   $target-bp: nested-map-get($g-breakpoints, 1, $start-at);
   $target-bp-width: false;
+  $target-end-bp: false;
+  $target-end-bp-width: false;
   $calc-direction: $direction;
   $hit-auto-bp: false; // track if we've hit the max-body breakpoint for full bleed options
+
+  // if we have an end bp then define the targets
+  @if ($end-at) {
+    $target-end-bp: nested-map-get($g-breakpoints, 1, $end-at);
+    $target-end-bp-width: nth($target-end-bp, 2);
+  }
 
   @if $direction == 'left-full' {
     $calc-direction: 'left';
@@ -200,9 +209,33 @@
         }
       }
 
-      @if $bp-width >= $target-bp-width {
+      // define the checks we need to do based on the existence of an end bp
+      $bp-match: false;
+      @if ($target-end-bp-width) {
+        $bp-match: ($bp-width >= $target-bp-width) and ($bp-width < $target-end-bp-width);
+      } @else {
+        $bp-match: ($bp-width >= $target-bp-width);
+      }
+
+      // check if we're past the auto-bp
+      @if $bp-inset == 'auto'
+        and ($direction == 'left-full'
+        or $direction == 'right-full'
+        or $direction == 'both-full') {
+          $hit-auto-bp: true; // if we're full bleed, stop
+      }
+
+      @if $bp-match {
+        // determine appropriate media query range
+        $mq: false;
+        @if ($target-end-bp-width) {
+          $mq: '(min-width: #{bp($bp)}) and (max-width: #{$target-end-bp-width - 0.0625em})';
+        } @else {
+          $mq: '(min-width: #{bp($bp)})';
+        }
+
         @if $bp-inset != 'auto' and $hit-auto-bp == false {
-          @media (min-width: bp(#{$bp})) {
+          @media #{$mq} {
             body & {
               @if ($calc-direction == 'both') {
                 padding-right: $bp-inset;
@@ -222,13 +255,7 @@
             }
           }
         } @else {
-          @if $direction == 'left-full'
-            or $direction == 'right-full'
-            or $direction == 'both-full' {
-              $hit-auto-bp: true; // if we're full bleed, stop
-          }
-
-          @media (min-width: bp(#{$bp})) {
+          @media #{$mq} {
             body & {
               @if ($calc-direction == 'both') {
                 padding-left: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
