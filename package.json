@@ -4,7 +4,7 @@
   "description": "A visual grid overlay and Sass mixin system to help with your front-end development",
   "scripts": {
     "build": "npm run build:scss && npm run build:main && npm run build:vue",
-    "build:scss": "cp -r ./scss ./dist/scss",
+    "build:scss": "cp -r ./scss ./dist",
     "build:main": "uglifyjs --compress --mangle -o ./dist/index.js -- ./index.js",
     "build:vue": "uglifyjs --compress --mangle -o ./dist/vue/index.js -- ./vue/index.js"
   },

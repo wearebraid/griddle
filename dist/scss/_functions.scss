@@ -22,7 +22,7 @@
   $match-found: false;
   $index: 1;
 
-  @while (($index < $length) and ($match-found != true)) {
+  @while (($index <= $length) and ($match-found != true)) {
     $match-found: $target-value == nth(nth($haystack, $index), $target-index);
     $index: $index + 1;
   }
