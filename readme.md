@@ -249,6 +249,7 @@ By including the `bleed()` we can easily break `span()` items out of `containers
 ```scss
 .my-element {
   @include bleed('right-full', base);
+
   width: span(4); // 31.57895% assuming a 12-column grid
   margin-left: span(8, 1); // 68.42105% assuming a 12-column grid
 }
@@ -289,11 +290,11 @@ a `bp()` returns the width value of a given breakpoint name. It is most useful f
 When using Griddle you are not constrained to the breakpoints defined in your Griddle configuration settings. If you happen to have need for a one-off breakpoint here or there, go for it!
 
 ```scss
-.my-buggy-element {
+.my-special-element {
   width: span(12); // 100% assuming a 12-column grid
 
-  @media (min-width: 814px) {
-    // fixes that one visual bug at 814px or something.
+  @media (min-width: 50.875em) { // 814px
+    // fixes that one visual bug at a specific width or something.
     // use your imagination.
   }
 }
