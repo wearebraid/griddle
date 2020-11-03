@@ -121,6 +121,12 @@ Griddle is intended to match your design file’s grid settings as closely as po
 
 Here are the default settings that can be overridden in your `griddle-overrides.scss`. Feel free to copy them to your own overrides file as a starting point.
 
+As of version 2.0 all breakpoint values must be provided in `em` values.
+Why? because [`em` values allow for proportional website scaling](https://www.wearebraid.com/articles/proportional-website-scaling) and there
+is internal math in Griddle being done with `em` values. Sass does not allow mixed value math (eg. 100px - 1em) so `em` values must be used for variable declarations. Once you declare them though, you'll use the names so its only truly applicable in the variable declarations file.
+
+I recommend a base font size of `16px` in your project but you do you.
+
 ```scss
 $g-max-column-width: 4.5em !default; // 72px
 $g-max-gutter-width: 2em !default; // 32px
@@ -236,17 +242,30 @@ a `bleed()` mixin outputs all of the responsive styles needed to take a `span()`
 
 - `direction`: (required) The direction you would like the element to bleed. Valid options are `left`, `right`, `both`, `left-full`, `right-full` and `both-full`. The `-full` variations will always persist to the edge of the viewport assuming that your element is aligned to one edge of a full grid-width container. The non `-full` variations will use the provided `offset` value of a given breakpoint as their maximum bleed distance.
 - `start-at`: (optional, defaults to `base`) The string name of the breakpoint you would like the bleed effect to start at.
+- `end-at`: (optional, defaults to `false`) The string name of the breakpoint you would like the bleed effect to end at.
 
 By including the `bleed()` we can easily break `span()` items out of `containers()`:
 ```scss
 .my-element {
-  @include bleed(right-full, base);
+  @include bleed('right-full', base);
   width: span(4); // 31.57895% assuming a 12-column grid
   margin-left: span(8, 1); // 68.42105% assuming a 12-column grid
 }
 ```
 ![bleed(right) example](./assets/img/bleed.jpg)
 
+If you want to limit the bleed effect to a range of breakpoint widths — or you need to change the type of bleed across breakpoints — then you can include the mixin multiple times with different arguments.
+
+```scss
+.my-element {
+  @include bleed('both', base, m);
+  @include bleed('left', m);
+
+  @media (bp(m)) {
+    width: span(6);
+  }
+}
+```
 
 ### `bp()`
 a `bp()` returns the width value of a given breakpoint name. It is most useful for creating media queries tied to the named breakpoints in your Griddle configuration.
