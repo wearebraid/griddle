@@ -85,13 +85,13 @@ module.exports = {
         // before griddle.scss if you wish to override default settings
         // these files should only include variables and mixins, not styles
         // as they will be added to every component that uses SCSS.
-        
+
         // sass-loader less than v9.0
         data: `
           @import "@/assets/griddle-overrides.scss";
           @import "@braid/griddle/scss/griddle.scss";
         `,
-        
+
         // sass-loader v9.0+
         additionalData: `
           @import "@/assets/griddle-overrides.scss";
@@ -117,7 +117,7 @@ Griddle is 99% the `.scss` mixins represented in this repo. Pull Requests are we
 
 You can change the settings for Griddle by including your own `griddle-overrides.scss` file (call it whatever you want) and loading it into your `.scss` _before_ the main `griddle.scss` is included. Your overrides file will take precedence over the default values.
 
-Griddle is intended to match your design file’s grid settings as closely as possible. Use the available column and gutter sizes along with the column count from your design program to set up your project. 
+Griddle is intended to match your design file’s grid settings as closely as possible. Use the available column and gutter sizes along with the column count from your design program to set up your project.
 
 Here are the default settings that can be overridden in your `griddle-overrides.scss`. Feel free to copy them to your own overrides file as a starting point.
 
@@ -234,7 +234,7 @@ Do you need to push or pull an element by a number of columns? Since the `span()
 ### `bleed()`
 a `bleed()` mixin outputs all of the responsive styles needed to take a `span()` aligned element to the edge of the screen, beyond the edge of the `container()`. The `bleed()` mixin assumes that you have used `span()` to align your element properly to the edge of the container. `bleed()` takes 2 arguments `direction` and `start-at`.
 
-- `direction`: (required) The direction you would like the element to bleed. Valid options are `left`, `right` and `both`.
+- `direction`: (required) The direction you would like the element to bleed. Valid options are `left`, `right`, `both`, `left-full`, `right-full` and `both-full`. The `-full` variations will always persist to the edge of the viewport assuming that your element is aligned to one edfe of a full grid-width container. The non `-full` variations will use the provided `offset` value of a given breakpoint as their maximum bleed distance.
 - `start-at`: (optional, defaults to `base`) The string name of the breakpoint you would like the bleed effect to start at.
 
 By including the `bleed()` we can easily break `span()` items out of `containers()`:
