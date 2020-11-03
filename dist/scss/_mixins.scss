@@ -177,6 +177,16 @@
 
   $target-bp: nested-map-get($g-breakpoints, 1, $start-at);
   $target-bp-width: false;
+  $calc-direction: $direction;
+  $hit-auto-bp: false; // track if we've hit the max-body breakpoint for full bleed options
+
+  @if $direction == 'left-full' {
+    $calc-direction: 'left';
+  } @else if $direction == 'right-full' {
+    $calc-direction: 'right';
+  } @else if $direction == 'both-full' {
+    $calc-direction: 'both';
+  }
 
   @if ($target-bp) {
     $target-bp-width: nth($target-bp, 2);
@@ -191,22 +201,17 @@
       }
 
       @if $bp-width >= $target-bp-width {
-        @debug "divider offset: #{$direction}";
-        @if $bp-inset != 'auto'
-          or $direction == 'left-full'
-          or $direction == 'right-full'
-          or $direction == 'both-full' {
+        @if $bp-inset != 'auto' and $hit-auto-bp == false {
           @media (min-width: bp(#{$bp})) {
             body & {
-              @if ($direction == 'both')
-              or $direction == 'both-full' {
+              @if ($calc-direction == 'both') {
                 padding-right: $bp-inset;
                 padding-left: $bp-inset;
                 margin-right: - $bp-inset;
                 margin-left: - $bp-inset;
               } @else {
-                padding-#{$direction}: $bp-inset;
-                margin-#{$direction}: - $bp-inset;
+                padding-#{$calc-direction}: $bp-inset;
+                margin-#{$calc-direction}: - $bp-inset;
               }
 
               @if $unset-child {
@@ -217,16 +222,22 @@
             }
           }
         } @else {
+          @if $direction == 'left-full'
+            or $direction == 'right-full'
+            or $direction == 'both-full' {
+              $hit-auto-bp: true; // if we're full bleed, stop
+          }
+
           @media (min-width: bp(#{$bp})) {
             body & {
-              @if ($direction == 'both') {
+              @if ($calc-direction == 'both') {
                 padding-left: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
                 padding-right: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
                 margin-left: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
-                margin-left: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+                margin-right: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
               } @else {
-                padding-#{$direction}: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
-                margin-#{$direction}: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+                padding-#{$calc-direction}: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
+                margin-#{$calc-direction}: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
               }
             }
           }
