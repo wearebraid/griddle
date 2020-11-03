@@ -191,10 +191,15 @@
       }
 
       @if $bp-width >= $target-bp-width {
-        @if $bp-inset != 'auto' {
+        @debug "divider offset: #{$direction}";
+        @if $bp-inset != 'auto'
+          or $direction == 'left-full'
+          or $direction == 'right-full'
+          or $direction == 'both-full' {
           @media (min-width: bp(#{$bp})) {
             body & {
-              @if ($direction == 'both') {
+              @if ($direction == 'both')
+              or $direction == 'both-full' {
                 padding-right: $bp-inset;
                 padding-left: $bp-inset;
                 margin-right: - $bp-inset;
