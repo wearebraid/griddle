@@ -122,7 +122,7 @@ Griddle is intended to match your design file’s grid settings as closely as po
 
 Here are the default settings that can be overridden in your `griddle-overrides.scss`. Feel free to copy them to your own overrides file as a starting point.
 
-As of version 2.0 all breakpoint values must be provided in `em` values.
+### As of version 2.0 all breakpoint values must be provided in `em` values.
 Why? because [`em` values allow for proportional website scaling](https://www.wearebraid.com/articles/proportional-website-scaling) and there
 is internal math in Griddle being done with `em` values. Sass does not allow mixed value math (eg. 100px - 1em) so `em` values must be used for variable declarations. Once you declare them though, you'll use the names so its only truly applicable in the variable declarations file.
 
