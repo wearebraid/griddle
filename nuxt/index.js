@@ -23,15 +23,14 @@ export default function (moduleOptions) {
   // create scss overrides file for later inclusion
   this.addTemplate({
     src: resolve(__dirname, 'config.scss'),
-    fileName: 'griddle_overrides.scss',
+    fileName: 'griddle/griddle_overrides.scss',
     options
   })
 
   // add a plugin that registers the Griddle component
   this.addPlugin({
     src: resolve(__dirname, 'plugin.js'),
-    fileName: 'griddle.js',
-    options
+    fileName: 'griddle/griddle.js'
   })
 
   // ensure that plugin is transpiled
@@ -49,7 +48,7 @@ export default function (moduleOptions) {
   } else {
     this.options.styleResources = this.options.styleResources || {}
     this.options.styleResources.scss = this.options.styleResources.scss || []
-    this.options.styleResources.scss.unshift('./.nuxt/griddle_overrides.scss') // ensure we add variables early
+    this.options.styleResources.scss.unshift(resolve(this.options.buildDir, './griddle/griddle_overrides.scss')) // ensure we add variables early
     this.options.styleResources.scss.push(resolve(__dirname, '../scss/griddle.scss'))
   }
 }
