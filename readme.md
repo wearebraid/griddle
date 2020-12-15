@@ -12,6 +12,7 @@ The goal of the system is to assist front-end engineers in executing a 1:1 imple
 - [Who is Griddle not for?](#who-is-griddle-not-for)
 - [Real projects made with Griddle](#real-projects-made-with-griddle)
 - [Installation](#installation)
+  - [Nuxt](#nuxt)
   - [Vue](#vue)
   - [Other frameworks?](#other-frameworks)
 - [Customization](#customization)
@@ -47,6 +48,52 @@ use `control + shift + L` to show the Griddle overlay in the browser on these pr
 
 ```bash
 npm install @braid/griddle
+```
+
+### Nuxt
+Installing Griddle in your nuxt project with the included module is the easiest way to get started.
+In your `nuxt.config.js` file include the provided module in your `buildModules` property and then optionally cofigure
+options with the `griddle` property:
+
+```javascript
+// nuxt.config.js
+{
+  modules: ['@braid/griddle/dist/nuxt'],
+  // optionally configure arguments. Here are the defaults
+  griddle: {
+    columnWidth: '4.5em',
+    gutterWidth: '2em',
+    columns: 12,
+    columnColor: 'red',
+    breakpoints: [
+      // each breakpoint consists of 3 items:
+      // 1.) name,
+      // 2.) breakpoint width
+      // 3.) Minimum inset from edge of screen
+      ['base', '0em', '1em'],
+      ['xs', '23.5em', '1em'],
+      ['s', '36em', '1.5em'],
+      ['m', '48em', '2em'],
+      ['l', '64em', '3em'],
+      ['xl', '86.5em', '4em'],
+      ['xxl', '100em', '6em']
+    ]
+  }
+}
+```
+
+Next, place the `<Griddle />` component in your project. We recommend placing the component at the root layout because it consists entirely of a fixed position grid overlay. The Griddle `.scss` mixins will work without the overlay, but it's sort of the key point. 😉
+
+```html
+<!-- in your project root layout -->
+<template>
+  ...
+  <Griddle />
+  <!--
+  the Griddle component has props for column-border and
+  column-numbers which both default to true
+  -->
+</template>
 ```
 
 ### Vue
