@@ -3,10 +3,11 @@
   "version": "2.0.1",
   "description": "A visual grid overlay and Sass mixin system to help with your front-end development",
   "scripts": {
-    "build": "npm run build:scss && npm run build:main && npm run build:vue",
+    "build": "npm run build:scss && npm run build:main && npm run build:vue && npm run build:nuxt",
     "build:scss": "cp -r ./scss ./dist",
     "build:main": "uglifyjs --compress --mangle -o ./dist/index.js -- ./index.js",
-    "build:vue": "uglifyjs --compress --mangle -o ./dist/vue/index.js -- ./vue/index.js"
+    "build:vue": "uglifyjs --compress --mangle -o ./dist/vue/index.js -- ./vue/index.js",
+    "build:nuxt": "cp -r ./nuxt ./dist && uglifyjs --compress --mangle -o ./dist/nuxt/index.js -- ./nuxt/index.js && uglifyjs --compress --mangle -o ./dist/nuxt/plugin.js -- ./nuxt/plugin.js"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",

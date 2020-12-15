@@ -1,0 +1,16 @@
+$g-max-column-width: <%= options.columnWidth %>;
+$g-max-gutter-width: <%= options.gutterWidth %>;
+$g-column-count: <%= options.columns %>;
+$g-column-color: <%= options.columnColor %>;
+
+$g-user-breakpoints:
+  <% if (Array.isArray(options.breakpoints)) { %>
+    <% options.breakpoints.forEach(function(bp) { %>
+      '<%= bp[0] %>' <%= bp[1] %> <%= bp[2] %>,
+    <% }) %>
+  <% } else { %>
+    <% Object.keys(options.breakpoints).forEach(function(key) { %>
+      '<%= key %>' <%= options.breakpoints[key].width %> <%= options.breakpoints[key].inset %>,
+    <% }) %>
+  <% } %>
+;
