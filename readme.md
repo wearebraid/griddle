@@ -47,7 +47,7 @@ use `control + shift + L` to show the Griddle overlay in the browser on these pr
 ## Installation
 
 ```bash
-npm install @braid/griddle
+npm install @braid/griddle @nuxtjs/style-resources
 ```
 
 ### Nuxt
@@ -58,7 +58,10 @@ options with the `griddle` property:
 ```javascript
 // nuxt.config.js
 {
-  modules: ['@braid/griddle/dist/nuxt'],
+  buildModules: [
+    '@braid/griddle/dist/nuxt',
+    '@nuxtjs/style-resources' // required to automatically provide griddle mixins to each component in your project
+  ],
   // optionally configure arguments. Here are the defaults
   griddle: {
     columnWidth: '4.5em',
