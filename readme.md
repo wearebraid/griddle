@@ -45,12 +45,11 @@ use `control + shift + L` to show the Griddle overlay in the browser on these pr
 - [Sidecar](https://sidecar.work) - On-demand project and office adminstration.
 
 ## Installation
-
+### Nuxt
 ```bash
 npm install @braid/griddle @nuxtjs/style-resources
 ```
 
-### Nuxt
 Installing Griddle in your nuxt project with the included module is the easiest way to get started.
 In your `nuxt.config.js` file include the provided module in your `buildModules` property and then optionally cofigure
 options with the `griddle` property:
@@ -100,6 +99,10 @@ Next, place the `<Griddle />` component in your project. We recommend placing th
 ```
 
 ### Vue
+```bash
+npm install @braid/griddle
+```
+
 First, import and register the Griddle component
 
 ```javascript
