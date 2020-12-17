@@ -50,5 +50,11 @@ export default function (moduleOptions) {
     this.options.styleResources.scss = this.options.styleResources.scss || []
     this.options.styleResources.scss.unshift(resolve(this.options.buildDir, './griddle/griddle_overrides.scss')) // ensure we add variables early
     this.options.styleResources.scss.push(resolve(__dirname, '../scss/griddle.scss'))
+
+    if (options.debug) {
+      console.log('[GRIDDLE] overrides file path: ', resolve(this.options.buildDir, './griddle/griddle_overrides.scss'))
+      console.log('[NUXT] css resources: ', this.options.css)
+      console.log('[NUXT] scss resources: ', this.options.styleResources.scss)
+    }
   }
 }
