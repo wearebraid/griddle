@@ -65,8 +65,8 @@ In your `nuxt.config.js` file include the provided module in your `buildModules`
   ],
   // optionally configure arguments. Here are the defaults
   griddle: {
-    debug: false // outputs some helpful console logs on Nuxt build,
-    overridesPath: false // provide a path to your own overrides .scss file
+    debug: false, // outputs some helpful console logs on Nuxt build,
+    overridesPath: false, // provide a path to your own overrides .scss file
     // use the same format you would for styleResources paths eg ('./assets/scss/griddle.scss')
     // if not using `overridesPath` then use the inline options here:
     columnWidth: '4.5em',
