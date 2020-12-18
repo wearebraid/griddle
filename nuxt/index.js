@@ -1,6 +1,8 @@
 const { resolve } = require('path')
 
 const defaults = {
+  debug: false,
+  overridesPath: false,
   columnWidth: '4.5em',
   gutterWidth: '2em',
   columns: 12,
@@ -18,14 +20,17 @@ const defaults = {
 
 export default function (moduleOptions) {
   // consolidate all module options
-  const options = Object.assign({}, defaults, this.options.griddle, moduleOptions)
+  const griddleOptions = Object.assign({}, defaults, this.options.griddle, moduleOptions)
 
-  // create scss overrides file for later inclusion
-  this.addTemplate({
-    src: resolve(__dirname, 'config.scss'),
-    fileName: 'griddle/griddle_overrides.scss',
-    options
-  })
+  // create scss overrides file for later inclusion if we're using the
+  // module options
+  if (!griddleOptions.overridesPath) {
+    this.addTemplate({
+      src: resolve(__dirname, 'config.scss'),
+      fileName: 'griddle/griddle_overrides.scss',
+      griddleOptions
+    })
+  }
 
   // add a plugin that registers the Griddle component
   this.addPlugin({
@@ -46,15 +51,17 @@ export default function (moduleOptions) {
   if (!this.options.buildModules.includes('@nuxtjs/style-resources') && !this.options.modules.includes('@nuxtjs/style-resources')) {
     console.error('You must have @nuxtjs/style-resources installed as a buildModule in your nuxt project and the styleResources key added to your nuxt.config.js file: https://github.com/nuxt-community/style-resources-module')
   } else {
+    const relativeBuildPath = this.options.buildDir.replace(this.options.srcDir, '.')
+    const overridesFile = griddleOptions.overridesPath ? griddleOptions.overridesPath : relativeBuildPath + '/griddle/griddle_overrides.scss'
     this.options.styleResources = this.options.styleResources || {}
     this.options.styleResources.scss = this.options.styleResources.scss || []
-    this.options.styleResources.scss.unshift(resolve(this.options.buildDir, './griddle/griddle_overrides.scss')) // ensure we add variables early
+    this.options.styleResources.scss.unshift(overridesFile) // .unshift to ensure we add variables early
     this.options.styleResources.scss.push(resolve(__dirname, '../scss/griddle.scss'))
 
-    if (options.debug) {
-      console.log('[GRIDDLE] overrides file path: ', resolve(this.options.buildDir, './griddle/griddle_overrides.scss'))
-      console.log('[NUXT] css resources: ', this.options.css)
-      console.log('[NUXT] scss resources: ', this.options.styleResources.scss)
+    if (griddleOptions.debug) {
+      console.log('[GRIDDLE] overrides file path: ', overridesFile)
+      console.log('[GRIDDLE] Nuxt css resources: ', this.options.css)
+      console.log('[GRIDDLE] Nuxt scss resources: ', this.options.styleResources.scss)
     }
   }
 }
