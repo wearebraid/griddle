@@ -46,13 +46,15 @@ use `control + shift + L` to show the Griddle overlay in the browser on these pr
 
 ## Installation
 ### Nuxt
+#### Install packages
 ```bash
 npm install @braid/griddle @nuxtjs/style-resources
 ```
 
 Installing Griddle in your nuxt project with the included module is the easiest way to get started.
-In your `nuxt.config.js` file include the provided module in your `buildModules` property and then optionally cofigure
-options with the `griddle` property:
+In your `nuxt.config.js` file include the provided module in your `buildModules` property and then optionally configure options with the `griddle` property.
+
+#### configure nuxt.config.js
 
 ```javascript
 // nuxt.config.js
@@ -63,6 +65,10 @@ options with the `griddle` property:
   ],
   // optionally configure arguments. Here are the defaults
   griddle: {
+    debug: false // outputs some helpful console logs on Nuxt build,
+    overridesPath: false // provide a path to your own overrides .scss file
+    // use the same format you would for styleResources paths eg ('./assets/scss/griddle.scss')
+    // if not using `overridesPath` then use the inline options here:
     columnWidth: '4.5em',
     gutterWidth: '2em',
     columns: 12,
@@ -83,7 +89,12 @@ options with the `griddle` property:
   }
 }
 ```
+#### Should I use `overridesPath` or the inline options?
+It depends. I've run into issues with some deployment processes where the dynamically generated griddle overrides file from the nuxt.config.js options has failed to load - namely on Heroku. In general using the `overridesPath` option seems the most reliable and the inline options are available for those who wish to use them.
 
+If you are supplying your own file, use the [customization options](#customization) to get started.
+
+#### add the Griddle component to your default nuxt project layout
 Next, place the `<Griddle />` component in your project. We recommend placing the component at the root layout because it consists entirely of a fixed position grid overlay. The Griddle `.scss` mixins will work without the overlay, but it's sort of the key point. 😉
 
 ```html
@@ -91,10 +102,6 @@ Next, place the `<Griddle />` component in your project. We recommend placing th
 <template>
   ...
   <Griddle />
-  <!--
-  the Griddle component has props for column-border and
-  column-numbers which both default to true
-  -->
 </template>
 ```
 
@@ -120,10 +127,6 @@ and place the `<Griddle />` component in your project. We recommend placing the 
 <template>
   ...
   <Griddle />
-  <!--
-  the Griddle component has props for column-border and
-  column-numbers which both default to true
-  -->
 </template>
 ```
 
