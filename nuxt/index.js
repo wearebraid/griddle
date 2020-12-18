@@ -25,10 +25,13 @@ export default function (moduleOptions) {
   // create scss overrides file for later inclusion if we're using the
   // module options
   if (!griddleOptions.overridesPath) {
+    if (griddleOptions.debug) {
+      console.log('[GRIDDLE] generating overrides file from options:', griddleOptions)
+    }
     this.addTemplate({
       src: resolve(__dirname, 'config.scss'),
       fileName: 'griddle/griddle_overrides.scss',
-      griddleOptions
+      options: griddleOptions
     })
   }
 
