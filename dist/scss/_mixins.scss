@@ -165,7 +165,7 @@
 }
 
 
-// adds bleeds up to a max $g-bleed-max-width if defined.
+// adds bleeds up to current bp inset or full viewport edge depnding on supplied direction.
 // assumes that your element is already positioned on the edge of the grid
 // within a container context
 // -----------------------------------------------------------------------------
@@ -270,6 +270,66 @@
           }
         }
       }
+    }
+  }
+}
+
+// Generates a CSS grid of equal-width elements.
+// Useful for "card grids" across a series of breakpoints.
+// -----------------------------------------------------------------------------
+@mixin grid(
+  $layout: (
+    // list of grid configuration items: 'start, end (optional), column count, target grid element width, target grid element column spacing, target grid element row spacing
+    // EG:
+    // 'm' 'l' 2 span(6) span(0, 1) 1em,
+    // 'l' 3 span(3) span(1, 2) 2em
+  ),
+  $align: start,
+  $justify: center
+) {
+  display: grid;
+  justify-items: #{$justify};
+  align-items: #{$align};
+  justify-content: #{$justify};
+  align-content: #{$align};
+  width: 100%;
+
+  @each $entry in $layout {
+    // set up base variable holders with default values
+    $start: nth($entry, 1);
+    $end: false;
+    $count: 1;
+    $width: 100%;
+    $col-gap: 0;
+    $row-gap: 0;
+    $has-end: true;
+    $mq: false;
+
+    // check if we have an ending bp declarud
+    @if (type-of(nth($entry, 2)) != 'string') {
+      $has-end: false;
+    }
+
+    // set the actual values depending on if we were provided
+    // an end value
+    @if ($has-end) {
+      $end: if(length($entry) >= 2, nth($entry, 2), $end);
+      $count: if(length($entry) >= 3, nth($entry, 3), $count);
+      $width: if(length($entry) >= 4, nth($entry, 4), $width);
+      $col-gap: if(length($entry) >= 5, nth($entry, 5), $col-gap);
+      $row-gap: if(length($entry) >= 6, nth($entry, 6), $row-gap);
+      $mq: '(min-width: #{bp($start)}) and (max-width: #{$end - 0.0625em})';
+    } @else {
+      $count: if(length($entry) >= 2, nth($entry, 2), $count);
+      $width: if(length($entry) >= 3, nth($entry, 3), $width);
+      $col-gap: if(length($entry) >= 4, nth($entry, 4), $col-gap);
+      $row-gap: if(length($entry) >= 5, nth($entry, 5), $row-gap);
+      $mq: '(min-width: #{bp($start)})';
+    }
+
+    @media #{$mq} {
+      grid-template-columns: repeat($count, $width);
+      gap: $row-gap $col-gap;
     }
   }
 }
