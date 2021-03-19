@@ -21,6 +21,7 @@ The goal of the system is to assist front-end engineers in executing a 1:1 imple
   - [`span()`](#span)
   - [`bleed()`](#bleed)
   - [`bp()`](#bp)
+  - [`grid()`](#grid)
   - [the `max-body` breakpoint](#the-max-body-breakpoint)
 - [Questions / Issues / Pull Requests](#questions--issues--pull-requests)
 
@@ -90,7 +91,7 @@ In your `nuxt.config.js` file include the provided module in your `buildModules`
 }
 ```
 #### Should I use `overridesPath` or the inline options?
-It depends. I've run into issues with some deployment processes where the dynamically generated griddle overrides file from the nuxt.config.js options has failed to load - namely on Heroku. In general using the `overridesPath` option seems the most reliable and the inline options are available for those who wish to use them.
+It depends. I've run into issues with some deployment processes where the dynamically generated Griddle overrides file from the nuxt.config.js options has failed to load - namely on Heroku. In general using the `overridesPath` option seems the most reliable and the inline options are available for those who wish to use them.
 
 If you are supplying your own file, use the [customization options](#customization) to get started.
 
@@ -217,6 +218,7 @@ Press `control + shift + L` (think "Layout") to toggle the visual grid overlay. 
 - [`span()`](#span)
 - [`bleed()`](#bleed)
 - [`bp()`](#bp)
+- [`grid()`](#grid)
 - [the `max-body` breakpoint](#the-max-body-breakpoint)
 
 ### `container()`
@@ -367,6 +369,43 @@ it's strongly recommended that all of your user-defined breakpoints have `px` or
 The formula for the `max-body` breakpoint is roughly this:
 
 `$max-body = $max-container-width + ($previous-breakpoint-inset * 2)`
+
+### `grid()`
+
+**New in v2.2.0+**
+
+The combined power of `span()` and `bp()` will get you far when it comes to mapping your UI to your target design grid. There are some places where the developer experience can still be painful though. One such case is the instance of creating "card grid" style UIs. If you're familar with this pattern (especially with earlier versions of Griddle) you can quickly end up in nth-child() hell — cancelling out margins across breakpoints to align elements exactly where you need them.
+
+
+```scss
+@include grid(
+  $layout: (), // Sass list of configuration layouts: 'starting breakpoint (bp name), column count (Number), target grid element width (span()), target grid element column spacing (span()), target grid element row spacing (em, px, or % value)'
+  $align: start, // the flex align-items value for the grid
+  $justify: center, // the flex justify-content valu for the grid
+  $debug: false // If true, renders outlines on the grid container and grid items
+);
+```
+
+In practice, given a 12-column grid, if your project required a center-aligned left-justified grid of elements that goes from `1`, `2`, and `4` columns across `base`, `m` and `l` breakpoints repsectively — your use of the mixin would look like this:
+
+```scss
+@include grid(
+  $layout: (
+    'base' 1 span(12) 0 1em, // bp-name column-count item-width x-spacing y-spacing
+    'm' 2 span(6) span(0, 1) 2em,
+    'l' 4 span(3) span(0, 1) 3em
+  ),
+  $align: flex-end,
+  $justify: flex-start
+);
+```
+
+#### Important considerations for using `grid()`
+
+Some things you should keep in mind when using the `grid()` mixin:
+
+- When creating your HTML markup it is ideal to create your containing element that will leverage the `grid()` mixin as an invisible wrapping element. The `grid()` mixin will apply a maximum width to the element to enforce your desired column count which can create undesired behaviours if you're also using the element for stylistic purposes.
+- The `grid()` mixin assumes that the elements you are targeting as grid items are _immediate_ children of the element to which the `grid()` mixin is applied. Internally the selector for targeting grid items inside of your grid element is `& > *`.
 
 ## Questions / Issues / Pull Requests
 We've been using Griddle internally for a while now and we're happy to see it in use by others. All questions, issues, and pull requests are welcome on this repo.
