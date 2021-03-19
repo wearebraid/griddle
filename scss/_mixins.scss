@@ -285,7 +285,8 @@
     // 'l' 3 span(3) span(1, 2) 2em
   ),
   $align: start,
-  $justify: center
+  $justify: center,
+  $debug: false
 ) {
   display: grid;
   justify-items: #{$justify};
@@ -300,8 +301,8 @@
     $end: false;
     $count: 1;
     $width: 100%;
-    $col-gap: 0;
-    $row-gap: 0;
+    $col-gap: false;
+    $row-gap: false;
     $has-end: true;
     $mq: false;
 
@@ -318,7 +319,7 @@
       $width: if(length($entry) >= 4, nth($entry, 4), $width);
       $col-gap: if(length($entry) >= 5, nth($entry, 5), $col-gap);
       $row-gap: if(length($entry) >= 6, nth($entry, 6), $row-gap);
-      $mq: '(min-width: #{bp($start)}) and (max-width: #{$end - 0.0625em})';
+      $mq: '(min-width: #{bp($start)}) and (max-width: #{bp($end) - 0.0625em})';
     } @else {
       $count: if(length($entry) >= 2, nth($entry, 2), $count);
       $width: if(length($entry) >= 3, nth($entry, 3), $width);
@@ -328,8 +329,21 @@
     }
 
     @media #{$mq} {
+      query: $mq;
       grid-template-columns: repeat($count, $width);
-      gap: $row-gap $col-gap;
+      @if ($row-gap) {
+        row-gap: $row-gap;
+      }
+      @if ($col-gap) {
+        column-gap: $col-gap;
+      }
+    }
+  }
+
+  @if ($debug) {
+    & > * {
+      width: 100%;
+      outline: 1px solid red;
     }
   }
 }
