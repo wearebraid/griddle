@@ -376,6 +376,7 @@ The formula for the `max-body` breakpoint is roughly this:
 
 The combined power of `span()` and `bp()` will get you far when it comes to mapping your UI to your target design grid. There are some places where the developer experience can still be painful though. One such case is the instance of creating "card grid" style UIs. If you're familar with this pattern (especially with earlier versions of Griddle) you can quickly end up in nth-child() hell — cancelling out margins across breakpoints to align elements exactly where you need them.
 
+Griddle supplies a `grid()` mixin to assist with this problem. If you require an _equal-width and equal-spaced_ grid of elements then this mixin is for you. Here are the default values of the `grid()` mixin:
 
 ```scss
 @include grid(
