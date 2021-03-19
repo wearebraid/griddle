@@ -277,7 +277,7 @@
 // Generates a CSS grid of equal-width elements.
 // Useful for "card grids" across a series of breakpoints.
 // -----------------------------------------------------------------------------
-@mixin grid(
+@mixin css-grid-grid(
   $layout: (
     // list of grid configuration items: 'start, end (optional), column count, target grid element width, target grid element column spacing, target grid element row spacing
     // EG:
@@ -329,7 +329,6 @@
     }
 
     @media #{$mq} {
-      query: $mq;
       grid-template-columns: repeat($count, $width);
       @if ($row-gap) {
         row-gap: $row-gap;
@@ -343,6 +342,98 @@
   @if ($debug) {
     & > * {
       width: 100%;
+      outline: 1px solid red;
+    }
+  }
+}
+
+// Generates a flex grid of equal-width elements.
+// Useful for "card grids" across a series of breakpoints.
+// -----------------------------------------------------------------------------
+@mixin grid(
+  $layout: false,
+  // ^ list of grid configuration items: 'start, column count, target grid element width, target grid element column spacing, target grid element row spacing
+  // EG:
+  // (
+  //   'base' 2 span(6) span(0, 1) 1em,
+  //   'm' 3 span(3) span(1, 2) 2em,
+  // )
+  $align: start,
+  $justify: center,
+  $debug: false
+) {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: #{$justify};
+  align-items: #{$align};
+
+  @if (($layout != false) and (length($layout) > 0)) {
+    $list-index: 1;
+
+    @each $entry in $layout {
+      // set a default bp that may be overriden.
+      $start: nth($entry, 1);
+      $mq: '(min-width: #{bp($start)})';
+
+      // check if we have a "next layout" and grab the starting bp
+      // in order to isolate styles to a specific range. The rules defined in
+      // the last layout entry will continue indefinitely.
+      @if (length($layout) > $list-index) {
+        $next-layout: nth($layout, $list-index + 1);
+        $end: nth($next-layout, 1);
+        $mq: '(min-width: #{bp($start)}) and (max-width: #{bp($end) - 0.0625em})';
+      }
+
+      // set up base variable holders with default values
+      $count: if(length($entry) >= 2, nth($entry, 2), 1);
+      $width: if(length($entry) >= 3, nth($entry, 3), 100%);
+      $col-gap: if(length($entry) >= 4, nth($entry, 4), false);
+      $row-gap: if(length($entry) >= 5, nth($entry, 5), false);
+      $max-width: ($count * $width) + (($count - 1) * if($col-gap, $col-gap, 0));
+
+      @media #{$mq} {
+        max-width: $max-width;
+
+        @if ($row-gap) {
+          margin-bottom: - $row-gap;
+        }
+
+        & > * {
+          width: ($width / $max-width) * 100%;
+
+          @if ($row-gap) {
+            margin-bottom: $row-gap;
+          }
+          @if ($col-gap) {
+            margin-right: (($col-gap / $max-width) / 2) * 100%;
+            margin-left: (($col-gap / $max-width) / 2) * 100%;
+          }
+
+          &:nth-child(#{$count}n),
+          &:last-child {
+            margin-right: 0;
+          }
+          &:nth-child(#{$count}n + 1) {
+            margin-left: 0;
+          }
+        }
+      }
+
+      // increment the list index for fetching the next bp start
+      $list-index: $list-index + 1;
+    }
+  } @else {
+    // default fallback of full width if no layouts were supplied
+    & > * {
+      width: 100%;
+    }
+  }
+
+  @if ($debug) {
+    outline: 2px dashed blue;
+
+    & > * {
       outline: 1px solid red;
     }
   }
