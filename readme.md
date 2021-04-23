@@ -1,5 +1,9 @@
 # 🍳 Griddle - Cook up something delicious.
 
+## Vue 3 Support
+Version 3.0.0+ of Griddle supports Vue 3. If you need vue 2.0 support then do not upgrade Griddle in your project beyond 2.x. 👍
+
+## Introduction
 Griddle is a system of Sass functions and mixins with an accompanying visual grid overlay to help you be exact with your front-end development.
 
 The goal of the system is to assist front-end engineers in executing a 1:1 implementation of referenced designs. This is done through a visual grid overlay that is toggleable in the browser and an accompanying set of `.scss` mixins and functions that place items precisely on the grid.
