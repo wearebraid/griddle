@@ -6,6 +6,9 @@
   @each $bp, $bp-width, $bp-inset in $g-breakpoints {
     // on each pass through, if we have not hit an "auto" inset then store
     // the inset value for use when we do have an auto inset
+    @if $bp-inset != auto {
+      $latest-inset: $bp-inset;
+    }
 
     @if $bp == 'base' {
       margin-left: $bp-inset;
@@ -14,6 +17,7 @@
       @media (min-width: bp(#{$bp})) {
         margin-left: auto !important;
         margin-right: auto !important;
+        width: calc(100% - #{$latest-inset * 2});
         max-width: $g-max-body-width;
       }
     } @else {
