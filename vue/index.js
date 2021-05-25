@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 export default {
   props: {
     columnNumbers: {
@@ -13,16 +15,14 @@ export default {
       default: false
     }
   },
-  render (h) {
+  render () {
     if (this.computedVisible) {
       return h('div',
         {
           ref: 'griddle',
           class: ['griddle-container'],
-          attrs: {
-            'data-column-numbers': this.columnNumbers,
-            'data-column-borders': this.columnBorders
-          }
+          'data-column-numbers': this.columnNumbers,
+          'data-column-borders': this.columnBorders
         },
         (new Array(this.numberOfColumns).fill('').map((col, index) => {
           return h('div',
