@@ -1,9 +1,14 @@
+@use "sass:math";
+@use "variables" as var;
+@use "computed-variables" as comp;
+@use "functions" as func;
+
 // Creates styles for a root element contained space
 // -----------------------------------------------------------------------------
 @mixin container () {
   $latest-inset: 0em;
 
-  @each $bp, $bp-width, $bp-inset in $g-breakpoints {
+  @each $bp, $bp-width, $bp-inset in comp.$breakpoints {
     // on each pass through, if we have not hit an "auto" inset then store
     // the inset value for use when we do have an auto inset
     @if $bp-inset != auto {
@@ -14,14 +19,14 @@
       margin-left: $bp-inset;
       margin-right: $bp-inset;
     } @else if $bp == "max-body" {
-      @media (min-width: bp(#{$bp})) {
+      @media (min-width: func.bp(#{$bp})) {
         margin-left: auto !important;
         margin-right: auto !important;
         width: calc(100% - #{$latest-inset * 2});
-        max-width: $g-max-body-width;
+        max-width: comp.$max-body-width;
       }
     } @else {
-      @media (min-width: bp(#{$bp})) {
+      @media (min-width: func.bp(#{$bp})) {
         margin-left: $bp-inset;
         margin-right: $bp-inset;
       }
@@ -33,7 +38,7 @@
 // -----------------------------------------------------------------------------
 @mixin overlay () {
   $latest-inset: 0em;
-  @each $bp, $bp-width, $bp-inset in $g-breakpoints {
+  @each $bp, $bp-width, $bp-inset in comp.$breakpoints {
     // on each pass through, if we have not hit an "auto" inset then store
     // the inset value for use when we do have an auto inset
     @if $bp-inset != auto {
@@ -42,8 +47,8 @@
 
     @if $bp == "base" {
       display: grid;
-      grid-template-columns: $g-column-template;
-      grid-column-gap: $g-column-gap;
+      grid-template-columns: comp.$column-template;
+      grid-column-gap: comp.$column-gap;
       pointer-events: none;
       z-index: 200; // reasonably safe high z-index
       position: fixed;
@@ -53,21 +58,21 @@
       right: $bp-inset;
       left: $bp-inset;
     } @else if $bp == "max-body" {
-      @media (min-width: bp(#{$bp})) {
+      @media (min-width: func.bp(#{$bp})) {
         left: 50% !important;
         right: auto !important;
         transform: translateX(-50%);
         width: calc(100% - #{$latest-inset * 2});
-        max-width: $g-max-body-width;
+        max-width: comp.$max-body-width;
       }
     } @else {
-      @media (min-width: bp(#{$bp})) {
+      @media (min-width: func.bp(#{$bp})) {
         @if $bp-inset == auto {
           left: 50%;
           right: auto;
           transform: translateX(-50%);
           width: calc(100% - #{$latest-inset * 2});
-          max-width: $g-max-body-width;
+          max-width: comp.$max-body-width;
         } @else {
           left: $bp-inset;
           right: $bp-inset;
@@ -103,12 +108,12 @@
   // set variables to calculate the proper return value for either
   // span() or span-decimal()
   @if $returnValue == 'percent' {
-    $base-column: $g-column;
-    $base-gutter: $g-gutter;
+    $base-column: comp.$column;
+    $base-gutter: comp.$gutter;
     $modifier: 1;
   } @else if $returnValue == 'decimal' {
-    $base-column: $g-column-decimal;
-    $base-gutter: $g-gutter-decimal;
+    $base-column: comp.$column-decimal;
+    $base-gutter: comp.$gutter-decimal;
     $modifier: 1.0000000001; // coerce final value to float, but do not modify
   }
 
@@ -122,14 +127,14 @@
   // calculate our possibly modified by a provided context
   $value: 0;
   @if $context != 0 {
-    $value: ((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier;
+    $value: math.div((($columns * $base-column) + ($gutters * $base-gutter)), $context) * $modifier;
   } @else {
     $value: (($columns * $base-column) + ($gutters * $base-gutter)) * $modifier;
   }
 
   // return the correct value type
   @if $returnValue == 'percent' {
-    @if getUnit($value) == '%' {
+    @if func.getUnit($value) == '%' {
       @return $value;
     } @else {
       @return percentage($value);
@@ -151,7 +156,7 @@
       // if it is a % value or a float then it is a context
       @if (
         $i == 1 and type-of(nth($args, $i)) == 'number'
-        and getUnit(nth($args, $i)) != '%'
+        and func.getUnit(nth($args, $i)) != '%'
         and round(nth($args, $i)) == nth($args, $i)
       ) {
         $extra_gutters: nth($args, $i);
@@ -169,7 +174,7 @@
 }
 
 
-// adds bleeds up to current bp inset or full viewport edge depnding on supplied direction.
+// adds bleeds up to current bp inset or full viewport edge depending on supplied direction.
 // assumes that your element is already positioned on the edge of the grid
 // within a container context
 // -----------------------------------------------------------------------------
@@ -180,7 +185,7 @@
   $unset-child: false
 ) {
 
-  $target-bp: nested-map-get($g-breakpoints, 1, $start-at);
+  $target-bp: func.nested-map-get(comp.$breakpoints, 1, $start-at);
   $target-bp-width: false;
   $target-end-bp: false;
   $target-end-bp-width: false;
@@ -189,7 +194,7 @@
 
   // if we have an end bp then define the targets
   @if ($end-at) {
-    $target-end-bp: nested-map-get($g-breakpoints, 1, $end-at);
+    $target-end-bp: func.nested-map-get(comp.$breakpoints, 1, $end-at);
     $target-end-bp-width: nth($target-end-bp, 2);
   }
 
@@ -204,9 +209,9 @@
   @if ($target-bp) {
     $target-bp-width: nth($target-bp, 2);
 
-    @each $bp, $bp-width, $bp-inset in $g-breakpoints {
+    @each $bp, $bp-width, $bp-inset in comp.$breakpoints {
       @if $bp == $start-at {
-        @media (min-width: bp(#{$bp})) {
+        @media (min-width: func.bp(#{$bp})) {
           body & {
             box-sizing: content-box;
           }
@@ -233,9 +238,9 @@
         // determine appropriate media query range
         $mq: false;
         @if ($target-end-bp-width) {
-          $mq: '(min-width: #{bp($bp)}) and (max-width: #{$target-end-bp-width - 0.0625em})';
+          $mq: '(min-width: #{func.bp($bp)}) and (max-width: #{$target-end-bp-width - 0.0625em})';
         } @else {
-          $mq: '(min-width: #{bp($bp)})';
+          $mq: '(min-width: #{func.bp($bp)})';
         }
 
         @if $bp-inset != 'auto' and $hit-auto-bp == false {
@@ -262,13 +267,13 @@
           @media #{$mq} {
             body & {
               @if ($calc-direction == 'both') {
-                padding-left: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
-                padding-right: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
-                margin-left: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
-                margin-right: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+                padding-left: calc(math.div(100vw - var(--scrollbar-width) - #{comp.$max-body-width}), 2);
+                padding-right: calc(math.div(100vw - var(--scrollbar-width) - #{comp.$max-body-width}), 2);
+                margin-left: calc(math.div((100vw - var(--scrollbar-width) - #{comp.$max-body-width}), 2) * -1);
+                margin-right: calc(math.div((100vw - var(--scrollbar-width) - #{comp.$max-body-width}), 2) * -1);
               } @else {
-                padding-#{$calc-direction}: calc((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2);
-                margin-#{$calc-direction}: calc(((100vw - var(--scrollbar-width) - #{$g-max-body-width}) / 2) * -1);
+                padding-#{$calc-direction}: calc(math.div((100vw - var(--scrollbar-width) - #{comp.$max-body-width}), 2));
+                margin-#{$calc-direction}: calc(math.div((100vw - var(--scrollbar-width) - #{comp.$max-body-width}), 2) * -1);
               }
             }
           }
@@ -323,13 +328,13 @@
       $width: if(length($entry) >= 4, nth($entry, 4), $width);
       $col-gap: if(length($entry) >= 5, nth($entry, 5), $col-gap);
       $row-gap: if(length($entry) >= 6, nth($entry, 6), $row-gap);
-      $mq: '(min-width: #{bp($start)}) and (max-width: #{bp($end) - 0.0625em})';
+      $mq: '(min-width: #{func.bp($start)}) and (max-width: #{func.bp($end) - 0.0625em})';
     } @else {
       $count: if(length($entry) >= 2, nth($entry, 2), $count);
       $width: if(length($entry) >= 3, nth($entry, 3), $width);
       $col-gap: if(length($entry) >= 4, nth($entry, 4), $col-gap);
       $row-gap: if(length($entry) >= 5, nth($entry, 5), $row-gap);
-      $mq: '(min-width: #{bp($start)})';
+      $mq: '(min-width: #{func.bp($start)})';
     }
 
     @media #{$mq} {
@@ -378,7 +383,7 @@
     @each $entry in $layout {
       // set a default bp that may be overriden.
       $start: nth($entry, 1);
-      $mq: '(min-width: #{bp($start)})';
+      $mq: '(min-width: #{func.bp($start)})';
 
       // check if we have a "next layout" and grab the starting bp
       // in order to isolate styles to a specific range. The rules defined in
@@ -386,7 +391,7 @@
       @if (length($layout) > $list-index) {
         $next-layout: nth($layout, $list-index + 1);
         $end: nth($next-layout, 1);
-        $mq: '(min-width: #{bp($start)}) and (max-width: #{bp($end) - 0.0625em})';
+        $mq: '(min-width: #{func.bp($start)}) and (max-width: #{func.bp($end) - 0.0625em})';
       }
 
       // set up base variable holders with default values
@@ -404,14 +409,14 @@
         }
 
         & > * {
-          width: ($width / $max-width) * 100%;
+          width: math.div($width, $max-width) * 100%;
 
           @if ($row-gap) {
             margin-bottom: $row-gap;
           }
           @if ($col-gap) {
-            margin-right: (($col-gap / $max-width) / 2) * 100%;
-            margin-left: (($col-gap / $max-width) / 2) * 100%;
+            margin-right: math.div(math.div($col-gap, $max-width), 2) * 100%;
+            margin-left: math.div(math.div($col-gap, $max-width), 2) * 100%;
           }
 
           &:nth-child(#{$count}n),

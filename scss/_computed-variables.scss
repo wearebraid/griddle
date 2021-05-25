@@ -1,19 +1,22 @@
+@use "sass:math";
+@use "variables" as var;
+
 // the calculations below are all based on the values in variables.
 // They should not be modified.
 // -----------------------------------------------------------------------------
-$g-max-body-width: ($g-column-count * $g-max-column-width) + (($g-column-count - 1) * $g-max-gutter-width);
+$max-body-width: (var.$column-count * var.$max-column-width) + ((var.$column-count - 1) * var.$max-gutter-width);
 
-$g-column-decimal: $g-max-column-width / $g-max-body-width;
-$g-gutter-decimal: $g-max-gutter-width / $g-max-body-width;
+$column-decimal: math.div(var.$max-column-width, $max-body-width);
+$gutter-decimal: math.div(var.$max-gutter-width, $max-body-width);
 
-$g-column: $g-column-decimal * 100%;
-$g-gutter: $g-gutter-decimal * 100%;
+$column: $column-decimal * 100%;
+$gutter: $gutter-decimal * 100%;
 
-$g-column-template: repeat($g-column-count, 1fr);
-$g-column-gap: $g-gutter;
+$column-template: repeat(var.$column-count, 1fr);
+$column-gap: $gutter;
 
 // place the 'max-body' and 'base' breakpoints at the correct place inside our
-// $g-breakpoints map, and use the previous breakpoint's inset value
+// $breakpoints map, and use the previous breakpoint's inset value
 // to calculate the appropriate target screen size.
 // generates the final breakpoint map between default and user settings
 // -----------------------------------------------------------------------------
@@ -22,10 +25,10 @@ $g-column-gap: $g-gutter;
   $calcSize: 0;
   $breakpoints: ();
 
-  @each $bp, $bp-width, $bp-inset in $g-user-breakpoints {
+  @each $bp, $bp-width, $bp-inset in var.$user-breakpoints {
     // now find the correct place to insert the max body breakpoint
     @if $bp-inset != 'auto' {
-      $calcSize: $g-max-body-width + ($bp-inset * 2);
+      $calcSize: $max-body-width + ($bp-inset * 2);
 
       @if ($calcSize < $bp-width and $max-body-inserted == false) {
         $breakpoints: append($breakpoints, 'max-body' $calcSize auto);
@@ -45,4 +48,4 @@ $g-column-gap: $g-gutter;
   @return $breakpoints;
 }
 
-$g-breakpoints: generateBreakpoints();
+$breakpoints: generateBreakpoints();

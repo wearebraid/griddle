@@ -1,8 +1,11 @@
+@use "variables" as var;
+@use "mixins" as mix;
+
 .griddle-container {
-  @include overlay();
+  @include mix.overlay();
 
   .griddle-column {
-    background-color: rgba($g-column-color, 0.1);
+    background-color: rgba(var.$column-color, 0.1);
   }
 
   &[data-column-numbers="true"] {
@@ -17,7 +20,7 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        color: $g-column-color;
+        color: var.$column-color;
         opacity: 0.5;
         font-size: 12px;
         content: counter(columnCount);
@@ -44,7 +47,7 @@
 
   &[data-column-borders="true"] {
     .griddle-column {
-      box-shadow: inset 0 0 1px 0 $g-column-color;
+      box-shadow: inset 0 0 1px 0 var.$column-color;
     }
   }
 }

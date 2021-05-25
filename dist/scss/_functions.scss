@@ -1,11 +1,13 @@
+@use "computed-variables" as comp;
+
 // function to return a breakpoint value from the breakpoint map
 // -----------------------------------------------------------------------------
 @function bp($bp) {
-  $match: nested-map-get($g-breakpoints, 1, $bp);
+  $match: nested-map-get(comp.$breakpoints, 1, $bp);
   @if $match {
     @return nth($match, 2);
   }
-  // @warn "The breakpoint key '#{$bp}' is not in the map ’$g-breakpoints’";
+  // @warn "The breakpoint key '#{$bp}' is not in the map ’comp.$breakpoints’";
   @return null;
 };
 
