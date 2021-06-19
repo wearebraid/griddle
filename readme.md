@@ -39,7 +39,9 @@ use `control + shift + L` to show the Griddle overlay in the browser on these pr
 
 - [Braid](https://www.wearebraid.com) - Digital Agency, creator of Griddle.
 - [UVA Mcintire School of Commerce](https://www.commerce.virginia.edu) - The McIntire School of Commerce at the University of Virginia.
+- [UVA MSBA Program](https://msba.virginia.edu/) - M.S. in Business Analytics program at the University of Virginia.
 - [Outdoor Dreams](https://www.outdoordreamsva.com) - Bespoke outdoor rooms.
+- [Darsha Academy](https://www.darsha.academy/) - Education program for women in India.
 - [All Source Pregnancy](https://www.allsourcepregnancy.com) - Well-researched and understandable information about pregnancy.
 - [Cosaic](https://cosaic.io) - Industry-leading financial software.
 - [Gardenary](https://www.gardenary.com) - Garden Coaching and education.
