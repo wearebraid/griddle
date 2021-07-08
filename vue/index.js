@@ -72,6 +72,7 @@ export default {
       this.setScrollbarWidth()
     })
     this.setScrollbarWidth()
+    this.setGriddleBooted()
   },
   methods: {
     countColumns () {
@@ -82,6 +83,10 @@ export default {
     setScrollbarWidth () {
       const root = document.documentElement
       root.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + 'px')
+    },
+    setGriddleBooted () {
+      const root = document.documentElement
+      root.setAttribute('data-griddle-booted', true)
     },
     renderGriddle () {
       this.$emit('toggle', this.internalVisible)
