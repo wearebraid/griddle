@@ -1,6 +1,6 @@
 {
   "name": "@braid/griddle",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A visual grid overlay and Sass mixin system to help with your front-end development",
   "scripts": {
     "dev": "npm-watch",
