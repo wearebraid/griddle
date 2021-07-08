@@ -1,3 +1,11 @@
+:root {
+  --scrollbar-width: 0px;
+}
+
+html:not([data-griddle-booted="true"]) {
+  overflow-x: hidden;
+}
+
 .griddle-container {
   @include overlay();
 
