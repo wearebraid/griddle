@@ -108,7 +108,7 @@ Next, place the `<Griddle />` component in your project. We recommend placing th
 </template>
 ```
 
-### Vue
+### Vue / Vite
 ```bash
 npm install @braid/griddle
 ```
@@ -134,6 +134,8 @@ and place the `<Griddle />` component in your project. We recommend placing the 
 ```
 
 Second, you need to add the Griddle `.scss` mixins to your project. The exact method to do this may differ depending on your specific build process. Here is an example using a `vue.config.js` from a Vue CLI 3 project. First add the variables, functions, and mixins to every `.scss` style block in your project by registering them as part of the Sass loader:
+
+#### vue.config.js:
 
 ```js
 /* in vue.config.js */
@@ -162,6 +164,25 @@ module.exports = {
   }
 }
 ```
+
+If you are using [vite](https://vitejs.dev/), you can edit your `vite.config.js` file to contain:
+
+```js
+export default defineConfig({
+  ...
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "/src/assets/styles/griddle-overrides.scss";
+          @import "@braid/griddle/scss/griddle.scss";
+        `,
+      },
+    },
+  },
+})
+```
+
 Then include the visual overlay styles by including them in your `.scss` files that become part of your global stylesheet. `griddle-overlay.scss` should _not_ be imported into every component because it actually outputs style classes which should only be done once in your project.
 
 ```scss
