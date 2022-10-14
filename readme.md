@@ -32,20 +32,20 @@ The goal of the system is to assist front-end engineers in executing a 1:1 imple
 Griddle is for front-end engineers who prefer to do their layout work via "rules inside of stylesheets" rather than "classes inside of HTML templates". If you prefer for all of your layout work to occur inside of your project styles then Griddle is for you. With a visual overlay that that perfectly matches your design file grid and a set of tools that help you place elements in exactly the right place, Griddle is like being able to see for the first time.
 
 ## <a name="who-is-griddle-not-for"></a> 🙃 Who is Griddle not for?
-If you're married to Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustments to your mental model. Griddle assumes that you're comfortable writing your own styles and creating the sturcture neccessary for your project beyond adhering layout items precisely to your project grid.
+If you're married to Bootstrap's class system or a utility framework such as Tailwind — then this approach will take some adjustments to your mental model. Griddle assumes that you're comfortable writing your own styles and creating the structure necessary for your project beyond adhering layout items precisely to your project grid.
 
 ## <a name="real-projects-made-with-griddle"></a> 🔥 Real projects made with Griddle
 use `control + shift + L` to show the Griddle overlay in the browser on these projects. Note that each project represents a different grid configuration that was derived from that project's design file.
 
 - [Braid](https://www.wearebraid.com) - Digital Agency, creator of Griddle.
-- [UVA Mcintire School of Commerce](https://www.commerce.virginia.edu) - The McIntire School of Commerce at the University of Virginia.
+- [UVA McIntire School of Commerce](https://www.commerce.virginia.edu) - The McIntire School of Commerce at the University of Virginia.
 - [UVA MSBA Program](https://msba.virginia.edu/) - M.S. in Business Analytics program at the University of Virginia.
 - [Outdoor Dreams](https://www.outdoordreamsva.com) - Bespoke outdoor rooms.
 - [Darsha Academy](https://www.darsha.academy/) - Education program for women in India.
 - [All Source Pregnancy](https://www.allsourcepregnancy.com) - Well-researched and understandable information about pregnancy.
 - [Cosaic](https://cosaic.io) - Industry-leading financial software.
 - [Gardenary](https://www.gardenary.com) - Garden Coaching and education.
-- [Sidecar](https://sidecar.work) - On-demand project and office adminstration.
+- [Sidecar](https://sidecar.work) - On-demand project and office administration.
 
 ## Installation
 ### Nuxt
@@ -384,12 +384,12 @@ Griddle supplies a `grid()` mixin to assist with this problem. If you require an
 @include grid(
   $layout: (), // Sass list of configuration layouts: 'starting breakpoint (bp name), column count (Number), target grid element width (span()), target grid element column spacing (span()), target grid element row spacing (em, px, or % value)'
   $align: start, // the flex align-items value for the grid
-  $justify: center, // the flex justify-content valu for the grid
+  $justify: center, // the flex justify-content value for the grid
   $debug: false // If true, renders outlines on the grid container and grid items
 );
 ```
 
-In practice, given a 12-column grid, if your project required a center-aligned left-justified grid of elements that goes from `1`, `2`, and `4` columns across `base`, `m` and `l` breakpoints repsectively — your use of the mixin would look like this:
+In practice, given a 12-column grid, if your project required a center-aligned left-justified grid of elements that goes from `1`, `2`, and `4` columns across `base`, `m` and `l` breakpoints respectively — your use of the mixin would look like this:
 
 ```scss
 @include grid(
@@ -407,7 +407,7 @@ In practice, given a 12-column grid, if your project required a center-aligned l
 
 Some things you should keep in mind when using the `grid()` mixin:
 
-- When creating your HTML markup it is ideal to create your containing element that will leverage the `grid()` mixin as an invisible wrapping element. The `grid()` mixin will apply a maximum width to the element to enforce your desired column count which can create undesired behaviours if you're also using the element for stylistic purposes.
+- When creating your HTML markup it is ideal to create your containing element that will leverage the `grid()` mixin as an invisible wrapping element. The `grid()` mixin will apply a maximum width to the element to enforce your desired column count which can create undesired behaviors if you're also using the element for stylistic purposes.
 - The `grid()` mixin assumes that the elements you are targeting as grid items are _immediate_ children of the element to which the `grid()` mixin is applied. Internally the selector for targeting grid items inside of your grid element is `& > *`.
 
 ## Questions / Issues / Pull Requests
