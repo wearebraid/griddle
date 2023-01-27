@@ -1,10 +1,12 @@
 // the calculations below are all based on the values in variables.
 // They should not be modified.
 // -----------------------------------------------------------------------------
+@use "sass:math";
+
 $g-max-body-width: ($g-column-count * $g-max-column-width) + (($g-column-count - 1) * $g-max-gutter-width);
 
-$g-column-decimal: $g-max-column-width / $g-max-body-width;
-$g-gutter-decimal: $g-max-gutter-width / $g-max-body-width;
+$g-column-decimal: math.div($g-max-column-width, $g-max-body-width);
+$g-gutter-decimal: math.div($g-max-gutter-width, $g-max-body-width);
 
 $g-column: $g-column-decimal * 100%;
 $g-gutter: $g-gutter-decimal * 100%;
