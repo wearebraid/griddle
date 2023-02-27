@@ -1,5 +1,7 @@
 // Creates styles for a root element contained space
 // -----------------------------------------------------------------------------
+@use "sass:math";
+
 @mixin container () {
   $latest-inset: 0em;
 
@@ -122,7 +124,7 @@
   // calculate our possibly modified by a provided context
   $value: 0;
   @if $context != 0 {
-    $value: ((($columns * $base-column) + ($gutters * $base-gutter)) / $context) * $modifier;
+    $value: math.div(($columns * $base-column) + ($gutters * $base-gutter), $context) * $modifier;
   } @else {
     $value: (($columns * $base-column) + ($gutters * $base-gutter)) * $modifier;
   }
@@ -404,14 +406,14 @@
         }
 
         & > * {
-          width: ($width / $max-width) * 100%;
+          width: math.div($width, $max-width) * 100%;
 
           @if ($row-gap) {
             margin-bottom: $row-gap;
           }
           @if ($col-gap) {
-            margin-right: (($col-gap / $max-width) / 2) * 100%;
-            margin-left: (($col-gap / $max-width) / 2) * 100%;
+            margin-right: (math.div($col-gap, $max-width) * 0.5) * 100%;
+            margin-left: (math.div($col-gap, $max-width) * 0.5) * 100%;
           }
 
           &:nth-child(#{$count}n),
